@@ -1,7 +1,7 @@
 {
   "deployrrVersion": "1.0.0-ALPHA",
   "ssh": {
-    "host": "134.199.188.73",
+    "host": "TEST",
     "user": "root",
     "publicKey": "/home/manuel/.ssh/id_rsa"
   },

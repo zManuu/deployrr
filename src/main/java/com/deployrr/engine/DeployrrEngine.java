@@ -9,6 +9,7 @@ import com.deployrr.configuration.env.DeployEnvInjector;
 import com.deployrr.ssh.SSHConnection;
 import com.deployrr.task.DeployTask;
 import com.deployrr.task.DeployTasks;
+import com.deployrr.task.Task;
 import com.deployrr.task.TaskException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
@@ -94,6 +95,7 @@ public class DeployrrEngine {
     private void deploy() throws TaskException {
         this.enterState(DeployrrState.DEPLOY);
         for (DeployTask task : this.tasks) {
+            LOG.info("Starting Task: {}.", task.getClass().getAnnotation(Task.class).name());
             task.execute();
         }
     }

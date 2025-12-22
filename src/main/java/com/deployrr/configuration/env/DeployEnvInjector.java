@@ -15,7 +15,9 @@ public class DeployEnvInjector {
 
     public void setupEnv(DeployConfiguration deployConfiguration) {
         Map<String, String> env = new HashMap<>();
-        deployConfiguration.getVariables().forEach(env::putIfAbsent);
+        if (deployConfiguration.getVariables() != null) {
+            deployConfiguration.getVariables().forEach(env::putIfAbsent);
+        }
 
         Dotenv dotenv = Dotenv.configure()
                 .ignoreIfMissing()

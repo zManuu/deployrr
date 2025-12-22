@@ -1,6 +1,6 @@
 deployrrVersion: 1.0.0-ALPHA
 variables:
-  SRV_HOST: 134.199.188.73
+  SRV_HOST: TEST
   SRV_USER: root
 ssh:
   host: ${SRV_HOST}
