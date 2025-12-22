@@ -1,7 +1,10 @@
 deployrrVersion: 1.0.0-ALPHA
+variables:
+  SRV_HOST: 134.199.188.73
+  SRV_USER: root
 ssh:
-  host: 134.199.188.73
-  user: root
+  host: ${SRV_HOST}
+  user: ${SRV_USER}
   publicKey: /home/manuel/.ssh/id_rsa
 tasks:
   - task: cp

@@ -1,17 +1,29 @@
 package com.deployrr.configuration;
 
+import com.deployrr.configuration.env.EnvInject;
+import com.deployrr.configuration.env.EnvInjectType;
+
 import java.util.List;
+import java.util.Map;
 
 public class DeployConfiguration {
 
+    @EnvInject(EnvInjectType.STRING)
     private String deployrrVersion;
+
+    @EnvInject(EnvInjectType.OBJECT)
     private DeploySSHConfiguration ssh;
+
+    @EnvInject(EnvInjectType.OBJECT_LIST)
     private List<DeployTaskConfiguration> tasks;
 
-    public DeployConfiguration(String deployrrVersion, DeploySSHConfiguration ssh, List<DeployTaskConfiguration> tasks) {
+    private Map<String, String> variables;
+
+    public DeployConfiguration(String deployrrVersion, DeploySSHConfiguration ssh, List<DeployTaskConfiguration> tasks, Map<String, String> variables) {
         this.deployrrVersion = deployrrVersion;
         this.ssh = ssh;
         this.tasks = tasks;
+        this.variables = variables;
     }
 
     public DeployConfiguration() {
@@ -29,6 +41,10 @@ public class DeployConfiguration {
         return tasks;
     }
 
+    public Map<String, String> getVariables() {
+        return variables;
+    }
+
     public void setDeployrrVersion(String deployrrVersion) {
         this.deployrrVersion = deployrrVersion;
     }
@@ -40,4 +56,9 @@ public class DeployConfiguration {
     public void setTasks(List<DeployTaskConfiguration> tasks) {
         this.tasks = tasks;
     }
+
+    public void setVariables(Map<String, String> variables) {
+        this.variables = variables;
+    }
+
 }

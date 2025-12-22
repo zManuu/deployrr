@@ -1,10 +1,20 @@
 package com.deployrr.configuration;
 
+import com.deployrr.configuration.env.EnvInject;
+import com.deployrr.configuration.env.EnvInjectType;
+
 public class DeploySSHConfiguration {
 
+    @EnvInject(EnvInjectType.STRING)
     private String host;
+
+    @EnvInject(EnvInjectType.STRING)
     private String user;
+
+    @EnvInject(EnvInjectType.STRING)
     private String password;
+
+    @EnvInject(EnvInjectType.STRING)
     private String publicKey;
 
     public DeploySSHConfiguration(String host, String user, String password, String publicKey) {

@@ -5,11 +5,11 @@ import com.deployrr.configuration.DeployTaskConfiguration;
 import com.deployrr.configuration.reader.DeployConfigurationJsonReader;
 import com.deployrr.configuration.reader.DeployConfigurationReader;
 import com.deployrr.configuration.reader.DeployConfigurationYamlReader;
+import com.deployrr.configuration.env.DeployEnvInjector;
 import com.deployrr.ssh.SSHConnection;
 import com.deployrr.task.DeployTask;
 import com.deployrr.task.DeployTasks;
 import com.deployrr.task.TaskException;
-import com.google.gson.Gson;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +24,7 @@ public class DeployrrEngine {
 
     private final static Logger LOG = LogManager.getLogger();
     private final File configurationFile;
+    private final DeployEnvInjector envInjector;
     private DeployConfiguration configuration;
     private List<DeployTask> tasks;
     private SSHConnection sshConnection;
@@ -32,6 +33,7 @@ public class DeployrrEngine {
     public DeployrrEngine(File configurationFile) {
         this.configurationFile = configurationFile;
         this.state = DeployrrState.BOOT;
+        this.envInjector = new DeployEnvInjector();
     }
 
     public void runDeployment() throws IOException, TaskException {
@@ -47,6 +49,8 @@ public class DeployrrEngine {
         if (this.configurationFile == null || !this.configurationFile.exists() || !this.configurationFile.isFile()) {
             throw new IOException("Passed configuration file does not exist or is not a file.");
         }
+
+        // Read
         String configurationFileExt = FilenameUtils.getExtension(this.configurationFile.getName());
         DeployConfigurationReader configurationReader;
         switch (configurationFileExt) {
@@ -62,6 +66,14 @@ public class DeployrrEngine {
         }
         try (FileReader fileReader = new FileReader(this.configurationFile)) {
             this.configuration = configurationReader.readConfiguration(fileReader);
+        }
+
+        // Inject ENV
+        try {
+            this.envInjector.setupEnv(this.configuration);
+            this.envInjector.injectEnv(this.configuration);
+        } catch (Exception e) {
+            throw new IOException("Could not inject ENV.", e);
         }
     }
 
