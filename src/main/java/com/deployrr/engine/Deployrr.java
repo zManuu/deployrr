@@ -35,7 +35,7 @@ public class Deployrr {
     protected static Map<String, String> parseArguments(String[] args) {
         Map<String, String> parsedArguments = new HashMap<>();
         LongOpt[] opts = new LongOpt[] {
-                new LongOpt("deployrr-file", LongOpt.OPTIONAL_ARGUMENT, null, 'f')
+                new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f')
         };
         Getopt g = new Getopt("Deployrr", args, "f:", opts);
         for (int c = g.getopt(); c != -1; c = g.getopt()) {

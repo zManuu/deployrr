@@ -14,13 +14,18 @@ public class DeployEnvInjector {
     private Map<String, String> env;
 
     public void setupEnv(DeployConfiguration deployConfiguration) {
+        this.setupEnv(deployConfiguration, "./");
+    }
+
+    public void setupEnv(DeployConfiguration deployConfiguration, String envDirectory) {
         Map<String, String> env = new HashMap<>();
-        if (deployConfiguration.getVariables() != null) {
+        if (deployConfiguration != null && deployConfiguration.getVariables() != null) {
             deployConfiguration.getVariables().forEach(env::putIfAbsent);
         }
 
         Dotenv dotenv = Dotenv.configure()
                 .ignoreIfMissing()
+                .directory(envDirectory)
                 .load();
         for (DotenvEntry dotenvEntry : dotenv.entries()) {
             env.putIfAbsent(dotenvEntry.getKey(), dotenvEntry.getValue());
@@ -40,6 +45,10 @@ public class DeployEnvInjector {
 
             field.setAccessible(true);
             Object fieldValue = field.get(object);
+
+            if (fieldValue == null) {
+                continue;
+            }
 
             EnvInjectType objectType = field.getAnnotation(EnvInject.class).value();
             switch (objectType) {
