@@ -95,7 +95,7 @@ public class DeployrrEngine {
     private void deploy() throws TaskException {
         this.enterState(DeployrrState.DEPLOY);
         for (DeployTask task : this.tasks) {
-            LOG.info("Starting Task: {}.", task.getClass().getAnnotation(Task.class).name());
+            LOG.info("Starting Task: {}.", task.getDisplayName());
             task.execute();
         }
     }

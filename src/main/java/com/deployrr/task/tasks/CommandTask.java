@@ -18,8 +18,8 @@ public class CommandTask extends DeployTask {
     @TaskOpt("cmd")
     private String command;
 
-    public CommandTask(SSHConnection sshConnection) {
-        super(sshConnection);
+    public CommandTask(SSHConnection sshConnection, String name) {
+        super(sshConnection, name);
     }
 
     @Override

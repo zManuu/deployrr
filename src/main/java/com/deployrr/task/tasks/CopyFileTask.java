@@ -21,8 +21,8 @@ public class CopyFileTask extends DeployTask {
     @TaskOpt("target")
     private String target;
 
-    public CopyFileTask(SSHConnection sshConnection) {
-        super(sshConnection);
+    public CopyFileTask(SSHConnection sshConnection, String name) {
+        super(sshConnection, name);
     }
 
     @Override

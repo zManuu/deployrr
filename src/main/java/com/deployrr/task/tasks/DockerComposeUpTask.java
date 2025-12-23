@@ -18,8 +18,8 @@ public class DockerComposeUpTask extends DeployTask {
     @TaskOpt("location")
     private String location;
 
-    public DockerComposeUpTask(SSHConnection sshConnection) {
-        super(sshConnection);
+    public DockerComposeUpTask(SSHConnection sshConnection, String name) {
+        super(sshConnection, name);
     }
 
     @Override

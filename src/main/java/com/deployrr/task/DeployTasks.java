@@ -31,7 +31,7 @@ public class DeployTasks {
 
         DeployTask task;
         try {
-            task = instantiateTask(taskClass, sshConnection);
+            task = instantiateTask(taskClass, sshConnection, taskConfiguration.getName());
         } catch (Exception e) {
             throw new IOException("Could not instantiate task '" + taskName + "'.", e);
         }
@@ -62,9 +62,9 @@ public class DeployTasks {
         return null;
     }
 
-    private static DeployTask instantiateTask(Class<? extends DeployTask> taskClass, SSHConnection sshConnection) throws Exception {
-        Constructor<? extends DeployTask> constructor = taskClass.getConstructor(SSHConnection.class);
-        return constructor.newInstance(sshConnection);
+    private static DeployTask instantiateTask(Class<? extends DeployTask> taskClass, SSHConnection sshConnection, String name) throws Exception {
+        Constructor<? extends DeployTask> constructor = taskClass.getConstructor(SSHConnection.class, String.class);
+        return constructor.newInstance(sshConnection, name);
     }
 
     private static void injectTaskOpt(DeployTask task, Map<String, String> opt) throws Exception {

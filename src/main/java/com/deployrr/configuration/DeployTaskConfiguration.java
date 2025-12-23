@@ -13,9 +13,18 @@ public class DeployTaskConfiguration {
     @EnvInject(EnvInjectType.STRING_MAP)
     private Map<String, String> opt;
 
+    @EnvInject(EnvInjectType.STRING)
+    private String name;
+
     public DeployTaskConfiguration(String task, Map<String, String> opt) {
         this.task = task;
         this.opt = opt;
+    }
+
+    public DeployTaskConfiguration(String task, Map<String, String> opt, String name) {
+        this.task = task;
+        this.opt = opt;
+        this.name = name;
     }
 
     public DeployTaskConfiguration() {
@@ -29,6 +38,10 @@ public class DeployTaskConfiguration {
         return opt;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setTask(String task) {
         this.task = task;
     }
@@ -36,4 +49,9 @@ public class DeployTaskConfiguration {
     public void setOpt(Map<String, String> opt) {
         this.opt = opt;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
