@@ -21,6 +21,9 @@ public class CopyFileTask extends DeployTask {
     @TaskOpt("target")
     private String target;
 
+    @TaskOpt(value = "chmod", required = false)
+    private String chmod;
+
     public CopyFileTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
     }
@@ -30,6 +33,14 @@ public class CopyFileTask extends DeployTask {
         LOG.info("Executing copy from '{}' to '{}'.", this.source, this.target);
         try {
             this.sshConnection.copyFile(this.source, this.target);
+
+            if (this.chmod != null) {
+                String targetFile = this.target.endsWith("/")
+                        ? this.target + this.source.substring(this.source.lastIndexOf("/") + 1)
+                        : this.target;
+                String command = String.format("chmod %s %s", this.chmod, targetFile);
+                this.sshConnection.executeCommand(command);
+            }
         } catch (IOException e) {
             throw new TaskException(e);
         }

@@ -24,7 +24,6 @@ public class CommandTask extends DeployTask {
 
     @Override
     public void execute() throws TaskException {
-        LOG.info("Executing command '{}'.", this.command);
         try {
             this.sshConnection.executeCommand(command)
                     .forEach(line -> LOG.info(">> {}", line));

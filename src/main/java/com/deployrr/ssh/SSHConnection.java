@@ -6,6 +6,8 @@ import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class SSHConnection {
 
+    private final static Logger LOG = LogManager.getLogger();
     private final DeploySSHConfiguration sshConfiguration;
     private SSHClient sshClient;
 
@@ -58,6 +61,8 @@ public class SSHConnection {
     }
 
     public List<String> executeCommand(String command) throws IOException {
+        LOG.info("Executing command '{}'.", command);
+
         Session session = this.sshClient.startSession();
         Session.Command cmd = session.exec(command);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(cmd.getInputStream()))) {
