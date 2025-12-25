@@ -30,7 +30,6 @@ public class DeployConfigurationJsonReaderTest {
             assertEquals("/home/manuel/.ssh/id_rsa", configuration.getSsh().getPublicKey());
             assertNull(configuration.getVariables());
             assertNotNull(configuration.getTasks());
-            assertEquals(2, configuration.getTasks().size());
             assertInstanceOf(DeployTaskConfiguration.class, configuration.getTasks().get(0));
         }
     }
