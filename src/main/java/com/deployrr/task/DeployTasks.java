@@ -14,6 +14,10 @@ import java.util.Set;
 
 public class DeployTasks {
 
+    private interface Transformer {
+        Object transform(String value) throws Exception;
+    }
+
     private static final Reflections REF = new Reflections(
             "com.deployrr",
             Scanners.TypesAnnotated
@@ -82,7 +86,28 @@ public class DeployTasks {
                 throw new IOException("Missing the required option '" + optData.value() + "'.");
             }
             field.setAccessible(true);
-            field.set(task, optValue);
+            Object transformed = transformTaskOpt(optValue, field.getType());
+            field.set(task, transformed);
+        }
+    }
+
+    private static Object transformTaskOpt(String taskOpt, Class<?> expectedType) throws IOException {
+        Map<Class<?>, Transformer> transformers = Map.of(
+                String.class, (s) -> s,
+                Boolean.class, Boolean::parseBoolean,
+                Integer.class, Integer::parseInt,
+                Double.class, Double::parseDouble,
+                Float.class, Float::parseFloat,
+                Long.class, Long::parseLong
+        );
+        Transformer transformer = transformers.get(expectedType);
+        if (transformer == null) {
+            throw new IOException("No transformer was found for type '" + expectedType.getName() + "'.");
+        }
+        try {
+            return transformer.transform(taskOpt);
+        } catch (Exception e) {
+            throw new IOException("Error whilst executing transformer (type '" + expectedType.getName() + "').", e);
         }
     }
 
