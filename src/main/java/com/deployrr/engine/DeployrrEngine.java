@@ -23,7 +23,7 @@ import java.util.List;
 
 public class DeployrrEngine {
 
-    private final static Logger LOG = LogManager.getLogger();
+    private final static Logger LOG = LogManager.getLogger(DeployrrEngine.class);
     private final File configurationFile;
     private final DeployEnvInjector envInjector;
     private DeployConfiguration configuration;

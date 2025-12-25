@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SSHConnection {
 
-    private final static Logger LOG = LogManager.getLogger();
+    private final static Logger LOG = LogManager.getLogger(SSHConnection.class);
     private final DeploySSHConfiguration sshConfiguration;
     private SSHClient sshClient;
 

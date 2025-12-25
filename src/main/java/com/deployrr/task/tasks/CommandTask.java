@@ -13,7 +13,7 @@ import java.io.IOException;
 @Task(name = "Command", keys = {"cmd", "exec", "command"})
 public class CommandTask extends DeployTask {
 
-    private final static Logger LOG = LogManager.getLogger();
+    private final static Logger LOG = LogManager.getLogger(CommandTask.class);
 
     @TaskOpt("cmd")
     private String command;

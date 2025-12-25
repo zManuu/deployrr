@@ -13,7 +13,7 @@ import java.io.IOException;
 @Task(name = "DockerComposeUp", keys = {"dockercomposeup", "docker_compose_up", "docker-compose-up"})
 public class DockerComposeUpTask extends DeployTask {
 
-    private final static Logger LOG = LogManager.getLogger();
+    private final static Logger LOG = LogManager.getLogger(DockerComposeUpTask.class);
 
     @TaskOpt("location")
     private String location;

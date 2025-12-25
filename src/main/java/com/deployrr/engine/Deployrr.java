@@ -15,7 +15,7 @@ public class Deployrr {
 
     private static final String OPT_DEPLOYRR_FILE = "deployrr-file";
     private static final String OPT_DEPLOYRR_FILE_DEFAULT = "./deployrr.json";
-    private static final Logger LOG = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger(Deployrr.class);
 
     public static void main(String[] args) {
         Map<String, String> arguments = parseArguments(args);

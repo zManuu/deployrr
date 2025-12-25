@@ -13,7 +13,7 @@ import java.io.IOException;
 @Task(name = "CopyFile", keys = {"cp", "scp", "copy"})
 public class CopyFileTask extends DeployTask {
 
-    private final static Logger LOG = LogManager.getLogger();
+    private final static Logger LOG = LogManager.getLogger(CopyFileTask.class);
 
     @TaskOpt("source")
     private String source;
