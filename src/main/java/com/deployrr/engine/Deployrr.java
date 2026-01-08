@@ -1,28 +1,29 @@
 package com.deployrr.engine;
 
 import com.deployrr.task.TaskException;
-import gnu.getopt.Getopt;
-import gnu.getopt.LongOpt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Deployrr {
 
-    private static final String OPT_DEPLOYRR_FILE = "deployrr-file";
-    private static final String OPT_DEPLOYRR_FILE_DEFAULT = "./deployrr.json";
     private static final Logger LOG = LogManager.getLogger(Deployrr.class);
 
     public static void main(String[] args) {
-        Map<String, String> arguments = parseArguments(args);
+
+        // Arguments
+        DeployrrEngineArguments arguments;
+        try {
+            arguments = DeployrrEngineArguments.parseArguments(args);
+        } catch (InvalidEngineArgumentException e) {
+            LOG.error("Invalid arguments passed.", e);
+            return;
+        }
         LOG.info("Using deployrr args: {}", arguments);
 
-        File configurationFile = new File(arguments.get(OPT_DEPLOYRR_FILE));
-        DeployrrEngine engine = new DeployrrEngine(configurationFile);
+        // Engine Deploy
+        DeployrrEngine engine = new DeployrrEngine(arguments);
         try {
             engine.runDeployment();
         } catch (IOException | TaskException e) {
@@ -30,30 +31,6 @@ public class Deployrr {
             e.printStackTrace();
             System.exit(1);
         }
-    }
-
-    protected static Map<String, String> parseArguments(String[] args) {
-        Map<String, String> parsedArguments = new HashMap<>();
-        LongOpt[] opts = new LongOpt[] {
-                new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f')
-        };
-        Getopt g = new Getopt("Deployrr", args, "f:", opts);
-        for (int c = g.getopt(); c != -1; c = g.getopt()) {
-            switch (c) {
-                case 'f':
-                    parsedArguments.put(OPT_DEPLOYRR_FILE, g.getOptarg());
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // apply defaults
-        if (!parsedArguments.containsKey(OPT_DEPLOYRR_FILE)) {
-            parsedArguments.put(OPT_DEPLOYRR_FILE, OPT_DEPLOYRR_FILE_DEFAULT);
-        }
-
-        return parsedArguments;
     }
 
 }

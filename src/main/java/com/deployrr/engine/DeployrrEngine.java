@@ -9,13 +9,11 @@ import com.deployrr.configuration.env.DeployEnvInjector;
 import com.deployrr.ssh.SSHConnection;
 import com.deployrr.task.DeployTask;
 import com.deployrr.task.DeployTasks;
-import com.deployrr.task.Task;
 import com.deployrr.task.TaskException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,15 +22,15 @@ import java.util.List;
 public class DeployrrEngine {
 
     private final static Logger LOG = LogManager.getLogger(DeployrrEngine.class);
-    private final File configurationFile;
+    private final DeployrrEngineArguments arguments;
     private final DeployEnvInjector envInjector;
     private DeployConfiguration configuration;
     private List<DeployTask> tasks;
     private SSHConnection sshConnection;
     private DeployrrState state;
 
-    public DeployrrEngine(File configurationFile) {
-        this.configurationFile = configurationFile;
+    public DeployrrEngine(DeployrrEngineArguments arguments) {
+        this.arguments = arguments;
         this.state = DeployrrState.BOOT;
         this.envInjector = new DeployEnvInjector();
     }
@@ -47,12 +45,14 @@ public class DeployrrEngine {
 
     private void loadConfiguration() throws IOException {
         this.enterState(DeployrrState.LOAD_CONFIGURATION);
-        if (this.configurationFile == null || !this.configurationFile.exists() || !this.configurationFile.isFile()) {
+        if (this.arguments.getDeployrrFile() == null
+                || !this.arguments.getDeployrrFile().exists()
+                || !this.arguments.getDeployrrFile().isFile()) {
             throw new IOException("Passed configuration file does not exist or is not a file.");
         }
 
         // Read
-        String configurationFileExt = FilenameUtils.getExtension(this.configurationFile.getName());
+        String configurationFileExt = FilenameUtils.getExtension(this.arguments.getDeployrrFile().getName());
         DeployConfigurationReader configurationReader;
         switch (configurationFileExt) {
             case "json":
@@ -65,7 +65,7 @@ public class DeployrrEngine {
             default:
                 throw new IOException("Unsupported configuration file with extension '" + configurationFileExt + "'.");
         }
-        try (FileReader fileReader = new FileReader(this.configurationFile)) {
+        try (FileReader fileReader = new FileReader(this.arguments.getDeployrrFile())) {
             this.configuration = configurationReader.readConfiguration(fileReader);
         }
 
