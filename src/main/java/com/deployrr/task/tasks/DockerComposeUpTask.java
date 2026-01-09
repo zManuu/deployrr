@@ -27,8 +27,7 @@ public class DockerComposeUpTask extends DeployTask {
         LOG.info("Starting docker-compose in '{}'.", this.location);
         String command = String.format("docker compose -f %s up -d --remove-orphans", this.location);
         try {
-            this.sshConnection.executeCommand(command)
-                    .forEach(line -> LOG.info(">> {}", line));
+            this.sshConnection.executeCommandLogging(command);
         } catch (IOException e) {
             throw new TaskException(e);
         }

@@ -81,6 +81,13 @@ public class DeployTasks {
                 continue;
             }
             TaskOpt optData = field.getAnnotation(TaskOpt.class);
+            if (opt == null) {
+                if (optData.required()) {
+                    throw new IOException("Missing the required option '" + optData.value() + "'.");
+                } else {
+                    continue;
+                }
+            }
             String optValue = opt.get(optData.value());
             if (optValue == null && optData.required()) {
                 throw new IOException("Missing the required option '" + optData.value() + "'.");

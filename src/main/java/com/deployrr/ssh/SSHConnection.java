@@ -60,6 +60,11 @@ public class SSHConnection {
         }
     }
 
+    public void executeCommandLogging(String command) throws IOException {
+        this.executeCommand(command)
+                .forEach(line -> LOG.info(">> {}", line));
+    }
+
     public List<String> executeCommand(String command) throws IOException {
         LOG.info("Executing command '{}'.", command);
 

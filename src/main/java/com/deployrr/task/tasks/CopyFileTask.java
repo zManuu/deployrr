@@ -39,7 +39,7 @@ public class CopyFileTask extends DeployTask {
                         ? this.target + this.source.substring(this.source.lastIndexOf("/") + 1)
                         : this.target;
                 String command = String.format("chmod %s %s", this.chmod, targetFile);
-                this.sshConnection.executeCommand(command);
+                this.sshConnection.executeCommandLogging(command);
             }
         } catch (IOException e) {
             throw new TaskException(e);
