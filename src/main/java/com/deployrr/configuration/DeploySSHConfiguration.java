@@ -15,13 +15,13 @@ public class DeploySSHConfiguration {
     private String password;
 
     @EnvInject(EnvInjectType.STRING)
-    private String publicKey;
+    private String privateKey;
 
-    public DeploySSHConfiguration(String host, String user, String password, String publicKey) {
+    public DeploySSHConfiguration(String host, String user, String password, String privateKey) {
         this.host = host;
         this.user = user;
         this.password = password;
-        this.publicKey = publicKey;
+        this.privateKey = privateKey;
     }
 
     public DeploySSHConfiguration() {
@@ -39,8 +39,8 @@ public class DeploySSHConfiguration {
         return password;
     }
 
-    public String getPublicKey() {
-        return publicKey;
+    public String getPrivateKey() {
+        return privateKey;
     }
 
     public void setHost(String host) {
@@ -55,7 +55,7 @@ public class DeploySSHConfiguration {
         this.password = password;
     }
 
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
     }
 }

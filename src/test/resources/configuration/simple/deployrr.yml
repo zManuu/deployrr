@@ -2,7 +2,7 @@ deployrrVersion: 1.0.0-ALPHA
 ssh:
   host: TEST
   user: root
-  publicKey: /home/manuel/.ssh/id_rsa
+  privateKey: /home/manuel/.ssh/id_rsa
 tasks:
   - task: cp
     name: Copy Docker Compose

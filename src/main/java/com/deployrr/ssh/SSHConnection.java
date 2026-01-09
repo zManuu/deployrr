@@ -30,8 +30,8 @@ public class SSHConnection {
             this.sshClient.disconnect();
             this.sshClient = null;
         }
-        if (this.sshConfiguration.getPassword() != null && this.sshConfiguration.getPublicKey() != null) {
-            throw new IOException("Impossible configuration. SSH authentication can only be performed with either password or public-key.");
+        if (this.sshConfiguration.getPassword() != null && this.sshConfiguration.getPrivateKey() != null) {
+            throw new IOException("Impossible configuration. SSH authentication can only be performed with either password or private-key.");
         }
 
         this.sshClient = new SSHClient();
@@ -44,8 +44,8 @@ public class SSHConnection {
                     this.sshConfiguration.getUser(),
                     this.sshConfiguration.getPassword()
             );
-        } else if (this.sshConfiguration.getPublicKey() != null) {
-            KeyProvider keys = this.sshClient.loadKeys(this.sshConfiguration.getPublicKey());
+        } else if (this.sshConfiguration.getPrivateKey() != null) {
+            KeyProvider keys = this.sshClient.loadKeys(this.sshConfiguration.getPrivateKey());
             this.sshClient.authPublickey(
                     this.sshConfiguration.getUser(),
                     keys

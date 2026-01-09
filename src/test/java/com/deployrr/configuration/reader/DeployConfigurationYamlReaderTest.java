@@ -27,7 +27,7 @@ public class DeployConfigurationYamlReaderTest {
             assertEquals("TEST", configuration.getSsh().getHost());
             assertEquals("root", configuration.getSsh().getUser());
             assertNull(configuration.getSsh().getPassword());
-            assertEquals("/home/manuel/.ssh/id_rsa", configuration.getSsh().getPublicKey());
+            assertEquals("/home/manuel/.ssh/id_rsa", configuration.getSsh().getPrivateKey());
             assertNull(configuration.getVariables());
             assertNotNull(configuration.getTasks());
             assertInstanceOf(DeployTaskConfiguration.class, configuration.getTasks().get(0));
