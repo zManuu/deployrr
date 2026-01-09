@@ -11,19 +11,25 @@ public class DeployrrEngineArguments {
 
     private static final String OPT_DEPLOYRR_FILE = "deployrr-file";
     private static final Pattern OPT_DEPLOYRR_FILE_REGEX = Pattern.compile("(?i)^deployrr\\.(json|ya?ml)$");
+    private static final String OPT_VERBOSE = "verbose";
 
     private File deployrrFile;
+    private boolean verbose;
 
     public static DeployrrEngineArguments parseArguments(String[] args) throws InvalidEngineArgumentException {
         DeployrrEngineArguments arguments = new DeployrrEngineArguments();
         LongOpt[] opts = new LongOpt[] {
-                new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f')
+                new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f'),
+                new LongOpt(OPT_VERBOSE, LongOpt.OPTIONAL_ARGUMENT, null, 'v')
         };
-        Getopt g = new Getopt("Deployrr", args, "f:", opts);
+        Getopt g = new Getopt("Deployrr", args, "f:v", opts);
         for (int c = g.getopt(); c != -1; c = g.getopt()) {
             switch (c) {
                 case 'f':
                     arguments.setDeployrrFile(new File(g.getOptarg()));
+                    break;
+                case 'v':
+                    arguments.setVerbose();
                     break;
                 default:
                     break;
@@ -63,10 +69,19 @@ public class DeployrrEngineArguments {
         return deployrrFile;
     }
 
+    public void setVerbose() {
+        this.verbose = true;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+
     @Override
     public String toString() {
         return "DeployrrEngineArguments{" +
                 "deployrrFile=" + deployrrFile +
+                ", verbose=" + verbose +
                 '}';
     }
 

@@ -3,12 +3,16 @@ package com.deployrr.engine;
 import com.deployrr.task.TaskException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 
 import java.io.IOException;
+import java.net.URI;
 
 public class Deployrr {
 
     private static final Logger LOG = LogManager.getLogger(Deployrr.class);
+    private static final String LOG4J_SIMPLE = "log4j2/simple.xml";
+    private static final String LOG4J_VERBOSE = "log4j2/verbose.xml";
 
     public static void main(String[] args) {
 
@@ -21,6 +25,12 @@ public class Deployrr {
             return;
         }
         LOG.info("Using deployrr args: {}", arguments);
+
+        // Setup Logging
+        LoggerContext logManager = (LoggerContext) LogManager.getContext(false);
+        logManager.setConfigLocation(URI.create(
+                arguments.isVerbose() ? LOG4J_VERBOSE : LOG4J_SIMPLE
+        ));
 
         // Engine Deploy
         DeployrrEngine engine = new DeployrrEngine(arguments);
