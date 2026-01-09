@@ -8,14 +8,19 @@ tasks:
     name: Copy Docker Compose
     opt:
       source: /home/manuel/Desktop/deployrr-docker-compose.yml
-      target: /
+      target: /deployment/
   - task: cp
     name: Copy TEST Script
     opt:
       source: /home/manuel/Desktop/deployrr-test.sh
-      target: /
+      target: /deployment/
       chmod: +x
+  - task: cmd
+    name: Execute TEST Script
+    opt:
+      cmd: ./deployrr-test.sh
+      cwd: /deployment/
   - task: docker-compose-up
     name: Start Docker Compose
     opt:
-      location: /deployrr-docker-compose.yml
+      location: /deployment/deployrr-docker-compose.yml

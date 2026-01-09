@@ -16,7 +16,10 @@ public class CommandTask extends DeployTask {
     private final static Logger LOG = LogManager.getLogger(CommandTask.class);
 
     @TaskOpt("cmd")
-    private String command;
+    private String cmd;
+
+    @TaskOpt(value = "cwd", required = false)
+    private String cwd;
 
     public CommandTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
@@ -25,7 +28,11 @@ public class CommandTask extends DeployTask {
     @Override
     public void execute() throws TaskException {
         try {
-            this.sshConnection.executeCommand(command)
+            String fullCommand = this.cwd != null
+                    ? String.format("cd %s && %s", this.cwd, this.cmd)
+                    : this.cmd;
+
+            this.sshConnection.executeCommand(fullCommand)
                     .forEach(line -> LOG.info(">> {}", line));
         } catch (IOException e) {
             throw new TaskException(e);
