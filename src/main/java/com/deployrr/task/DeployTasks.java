@@ -91,7 +91,10 @@ public class DeployTasks {
             String optValue = opt.get(optData.value());
             if (optValue == null && optData.required()) {
                 throw new IOException("Missing the required option '" + optData.value() + "'.");
+            } else if (optValue == null) {
+                continue;
             }
+
             field.setAccessible(true);
             Object transformed = transformTaskOpt(optValue, field.getType());
             field.set(task, transformed);

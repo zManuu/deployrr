@@ -24,3 +24,9 @@ tasks:
     name: Start Docker Compose
     opt:
       location: /deployment/deployrr-docker-compose.yml
+  - task: healthcheck
+    name: Check health
+    opt:
+      port: 1887
+      path: /api/users
+      expected: 405
