@@ -8,7 +8,7 @@ import com.deployrr.task.TaskOpt;
 
 import java.io.IOException;
 
-@Task(name = "Make directory", keys = {"mkdir"})
+@Task(name = "Make directory", keys = {"mkdir"}, description = "Creates a directory on the remote.")
 public class MkdirTask extends DeployTask {
 
     @TaskOpt("dir")

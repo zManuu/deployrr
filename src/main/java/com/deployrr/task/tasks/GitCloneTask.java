@@ -8,7 +8,7 @@ import com.deployrr.task.TaskOpt;
 
 import java.io.IOException;
 
-@Task(name = "Git Clone", keys = {"gitclone", "git-clone", "git_clone"})
+@Task(name = "Git Clone", keys = {"gitclone", "git-clone", "git_clone"}, description = "Clones a git repository on the remote.")
 public class GitCloneTask extends DeployTask {
 
     @TaskOpt("url")

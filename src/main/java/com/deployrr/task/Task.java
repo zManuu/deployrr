@@ -9,7 +9,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Task {
 
+    String NULL = "###NULL###";
+
     String name();
     String[] keys() default {};
+    String description() default NULL;
 
 }

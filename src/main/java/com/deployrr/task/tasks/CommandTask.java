@@ -8,7 +8,7 @@ import com.deployrr.task.TaskOpt;
 
 import java.io.IOException;
 
-@Task(name = "Command", keys = {"cmd", "exec", "command"})
+@Task(name = "Command", keys = {"cmd", "exec", "command"}, description = "Executes a command on the remote.")
 public class CommandTask extends DeployTask {
 
     @TaskOpt("cmd")

@@ -8,7 +8,7 @@ import com.deployrr.task.TaskOpt;
 
 import java.io.IOException;
 
-@Task(name = "Remove", keys = {"rm", "remove", "delete"})
+@Task(name = "Remove", keys = {"rm", "remove", "delete"}, description = "Removes a file or directory on the remote.")
 public class RmTask extends DeployTask {
 
     @TaskOpt("location")

@@ -8,7 +8,7 @@ import com.deployrr.task.TaskOpt;
 
 import java.io.IOException;
 
-@Task(name = "Git Pull", keys = {"gitpull", "git-pull", "git_pull"})
+@Task(name = "Git Pull", keys = {"gitpull", "git-pull", "git_pull"}, description = "Pulls a git repository on the remote.")
 public class GitPullTask extends DeployTask {
 
     @TaskOpt("location")

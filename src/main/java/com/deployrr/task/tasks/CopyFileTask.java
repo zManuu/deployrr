@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@Task(name = "CopyFile", keys = {"cp", "scp", "copy"})
+@Task(name = "CopyFile", keys = {"cp", "scp", "copy"}, description = "Copies a local file or directory to the remote.")
 public class CopyFileTask extends DeployTask {
 
     private final static Logger LOG = LogManager.getLogger(CopyFileTask.class);
