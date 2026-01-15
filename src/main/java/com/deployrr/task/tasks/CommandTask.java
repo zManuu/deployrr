@@ -11,10 +11,10 @@ import java.io.IOException;
 @Task(name = "Command", keys = {"cmd", "exec", "command"}, description = "Executes a command on the remote.")
 public class CommandTask extends DeployTask {
 
-    @TaskOpt("cmd")
+    @TaskOpt(value = "cmd", example = "script.sh")
     private String cmd;
 
-    @TaskOpt(value = "cwd", required = false)
+    @TaskOpt(value = "cwd", required = false, example = "/deployment/")
     private String cwd;
 
     public CommandTask(SSHConnection sshConnection, String name) {

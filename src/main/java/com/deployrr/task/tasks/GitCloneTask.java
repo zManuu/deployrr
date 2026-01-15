@@ -11,10 +11,10 @@ import java.io.IOException;
 @Task(name = "Git Clone", keys = {"gitclone", "git-clone", "git_clone"}, description = "Clones a git repository on the remote.")
 public class GitCloneTask extends DeployTask {
 
-    @TaskOpt("url")
+    @TaskOpt(value = "url", example = "https://github.com/zManuu/deployrr.git")
     private String url;
 
-    @TaskOpt("location")
+    @TaskOpt(value = "location", example = "/deployment/deployrr-repo")
     private String location;
 
     public GitCloneTask(SSHConnection sshConnection, String name) {

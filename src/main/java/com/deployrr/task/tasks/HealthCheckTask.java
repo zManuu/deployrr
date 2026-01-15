@@ -18,19 +18,19 @@ public class HealthCheckTask extends DeployTask {
     private static final String DEFAULT_METHOD = "GET";
     private static final Logger LOG = LogManager.getLogger(HealthCheckTask.class);
 
-    @TaskOpt(value = "url", required = false)
+    @TaskOpt(value = "url", required = false, example = "http://localhost:8080/health")
     private String url;
 
-    @TaskOpt(value = "method", required = false)
+    @TaskOpt(value = "method", required = false, example = "GET")
     private String method;
 
-    @TaskOpt(value = "port", required = false)
+    @TaskOpt(value = "port", required = false, example = "8080")
     private Integer port;
 
-    @TaskOpt(value = "path", required = false)
+    @TaskOpt(value = "path", required = false, example = "health")
     private String path;
 
-    @TaskOpt(value = "expected", required = false)
+    @TaskOpt(value = "expected", required = false, example = "202")
     private Integer expectedStatusCode;
 
     public HealthCheckTask(SSHConnection sshConnection, String name) {

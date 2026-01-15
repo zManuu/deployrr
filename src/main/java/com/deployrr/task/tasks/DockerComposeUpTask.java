@@ -15,7 +15,7 @@ public class DockerComposeUpTask extends DeployTask {
 
     private final static Logger LOG = LogManager.getLogger(DockerComposeUpTask.class);
 
-    @TaskOpt("location")
+    @TaskOpt(value = "location", example = "/deployment/docker-compose.yaml")
     private String location;
 
     public DockerComposeUpTask(SSHConnection sshConnection, String name) {

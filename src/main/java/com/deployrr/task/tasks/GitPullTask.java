@@ -11,7 +11,7 @@ import java.io.IOException;
 @Task(name = "Git Pull", keys = {"gitpull", "git-pull", "git_pull"}, description = "Pulls a git repository on the remote.")
 public class GitPullTask extends DeployTask {
 
-    @TaskOpt("location")
+    @TaskOpt(value = "location", example = "/deployment/deployrr-repo")
     private String location;
 
     public GitPullTask(SSHConnection sshConnection, String name) {

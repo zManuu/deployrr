@@ -11,7 +11,7 @@ import java.io.IOException;
 @Task(name = "Make directory", keys = {"mkdir"}, description = "Creates a directory on the remote.")
 public class MkdirTask extends DeployTask {
 
-    @TaskOpt("dir")
+    @TaskOpt(value = "dir", example = "/deployment")
     private String dir;
 
     public MkdirTask(SSHConnection sshConnection, String name) {

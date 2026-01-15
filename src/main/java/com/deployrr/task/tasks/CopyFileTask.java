@@ -15,13 +15,13 @@ public class CopyFileTask extends DeployTask {
 
     private final static Logger LOG = LogManager.getLogger(CopyFileTask.class);
 
-    @TaskOpt("source")
+    @TaskOpt(value = "source", example = "deployment/start.sh")
     private String source;
 
-    @TaskOpt("target")
+    @TaskOpt(value = "target", example = "/deployment/")
     private String target;
 
-    @TaskOpt(value = "chmod", required = false)
+    @TaskOpt(value = "chmod", required = false, example = "+x")
     private String chmod;
 
     public CopyFileTask(SSHConnection sshConnection, String name) {
