@@ -47,9 +47,13 @@ public class DeployTasks {
         return task;
     }
 
+    public static Set<Class<?>> findTaskClasses() {
+        return REF.getTypesAnnotatedWith(Task.class);
+    }
+
     @SuppressWarnings("unchecked")
     private static Class<? extends DeployTask> findTaskClass(String command) {
-        Set<Class<?>> taskClasses = REF.getTypesAnnotatedWith(Task.class);
+        Set<Class<?>> taskClasses = findTaskClasses();
         for (Class<?> taskClass : taskClasses) {
             Task taskData = taskClass.getAnnotation(Task.class);
             String[] taskKeys = taskData.keys();
