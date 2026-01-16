@@ -12,17 +12,20 @@ public class DeployrrEngineArguments {
     private static final String OPT_DEPLOYRR_FILE = "deployrr-file";
     private static final Pattern OPT_DEPLOYRR_FILE_REGEX = Pattern.compile("(?i)^deployrr\\.(json|ya?ml)$");
     private static final String OPT_VERBOSE = "verbose";
+    private static final String OPT_NO_BANNER = "no-banner";
 
     private File deployrrFile;
     private boolean verbose;
+    private boolean noBanner;
 
     public static DeployrrEngineArguments parseArguments(String[] args) throws InvalidEngineArgumentException {
         DeployrrEngineArguments arguments = new DeployrrEngineArguments();
         LongOpt[] opts = new LongOpt[] {
                 new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f'),
-                new LongOpt(OPT_VERBOSE, LongOpt.OPTIONAL_ARGUMENT, null, 'v')
+                new LongOpt(OPT_VERBOSE, LongOpt.OPTIONAL_ARGUMENT, null, 'v'),
+                new LongOpt(OPT_NO_BANNER, LongOpt.OPTIONAL_ARGUMENT, null, 'b')
         };
-        Getopt g = new Getopt("Deployrr", args, "f:v", opts);
+        Getopt g = new Getopt("Deployrr", args, "f:vb", opts);
         for (int c = g.getopt(); c != -1; c = g.getopt()) {
             switch (c) {
                 case 'f':
@@ -31,6 +34,8 @@ public class DeployrrEngineArguments {
                 case 'v':
                     arguments.setVerbose();
                     break;
+                case 'b':
+                    arguments.setNoBanner();
                 default:
                     break;
             }
@@ -73,8 +78,16 @@ public class DeployrrEngineArguments {
         this.verbose = true;
     }
 
+    private void setNoBanner() {
+        this.noBanner = true;
+    }
+
     public boolean isVerbose() {
         return verbose;
+    }
+
+    public boolean isNoBanner() {
+        return noBanner;
     }
 
     @Override
@@ -82,6 +95,7 @@ public class DeployrrEngineArguments {
         return "DeployrrEngineArguments{" +
                 "deployrrFile=" + deployrrFile +
                 ", verbose=" + verbose +
+                ", noBanner=" + noBanner +
                 '}';
     }
 

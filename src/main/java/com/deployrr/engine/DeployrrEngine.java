@@ -39,6 +39,10 @@ public class DeployrrEngine {
     }
 
     public void runDeployment() throws IOException, TaskException {
+        if (!this.arguments.isNoBanner()) {
+            DeployrrOutput.banner();
+        }
+
         this.loadConfiguration();
         this.initiateSSHConnection();
         this.prepareTasks();

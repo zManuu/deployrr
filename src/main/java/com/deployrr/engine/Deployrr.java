@@ -25,7 +25,6 @@ public class Deployrr {
             LOG.error("Invalid arguments passed.", e);
             return;
         }
-        LOG.info("Using deployrr args: {}", arguments);
 
         // Setup Logging
         LoggerContext logManager = (LoggerContext) LogManager.getContext(false);
