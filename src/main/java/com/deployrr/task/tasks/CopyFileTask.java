@@ -1,10 +1,7 @@
 package com.deployrr.task.tasks;
 
 import com.deployrr.ssh.SSHConnection;
-import com.deployrr.task.DeployTask;
-import com.deployrr.task.Task;
-import com.deployrr.task.TaskException;
-import com.deployrr.task.TaskOpt;
+import com.deployrr.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,8 +26,8 @@ public class CopyFileTask extends DeployTask {
     }
 
     @Override
-    public void execute() throws TaskException {
-        LOG.info("Executing copy from '{}' to '{}'.", this.source, this.target);
+    public TaskResult execute() throws TaskException {
+        LOG.debug("Executing copy from '{}' to '{}'.", this.source, this.target);
         try {
             this.sshConnection.copyFile(this.source, this.target);
 
@@ -41,6 +38,7 @@ public class CopyFileTask extends DeployTask {
                 String command = String.format("chmod %s %s", this.chmod, targetFile);
                 this.sshConnection.executeCommandLogging(command);
             }
+            return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);
         }

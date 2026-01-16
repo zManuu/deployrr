@@ -10,6 +10,7 @@ import com.deployrr.ssh.SSHConnection;
 import com.deployrr.task.DeployTask;
 import com.deployrr.task.DeployTasks;
 import com.deployrr.task.TaskException;
+import com.deployrr.task.TaskResult;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,13 +25,15 @@ public class DeployrrEngine {
     private final static Logger LOG = LogManager.getLogger(DeployrrEngine.class);
     private final DeployrrEngineArguments arguments;
     private final DeployEnvInjector envInjector;
+    private final long startTime;
     private DeployConfiguration configuration;
     private List<DeployTask> tasks;
     private SSHConnection sshConnection;
     private DeployrrState state;
 
-    public DeployrrEngine(DeployrrEngineArguments arguments) {
+    public DeployrrEngine(DeployrrEngineArguments arguments, long startTime) {
         this.arguments = arguments;
+        this.startTime = startTime;
         this.state = DeployrrState.BOOT;
         this.envInjector = new DeployEnvInjector();
     }
@@ -41,10 +44,12 @@ public class DeployrrEngine {
         this.prepareTasks();
         this.deploy();
         this.shutdownSSHConnection();
+        this.finish();
     }
 
     private void loadConfiguration() throws IOException {
         this.enterState(DeployrrState.LOAD_CONFIGURATION);
+        LOG.info("Loading configuration.");
         if (this.arguments.getDeployrrFile() == null
                 || !this.arguments.getDeployrrFile().exists()
                 || !this.arguments.getDeployrrFile().isFile()) {
@@ -80,6 +85,7 @@ public class DeployrrEngine {
 
     private void initiateSSHConnection() throws IOException {
         this.enterState(DeployrrState.SSH_CONNECT);
+        LOG.info("Initiating SSH connection.");
         this.sshConnection = new SSHConnection(this.configuration.getSsh());
         this.sshConnection.initiateConnection();
     }
@@ -94,15 +100,31 @@ public class DeployrrEngine {
 
     private void deploy() throws TaskException {
         this.enterState(DeployrrState.DEPLOY);
-        for (DeployTask task : this.tasks) {
-            LOG.info("Starting Task: {}.", task.getDisplayName());
-            task.execute();
+        LOG.info("Running deployment.");
+        for (int i = 0; i < this.tasks.size(); i++) {
+            DeployTask task = this.tasks.get(i);
+            DeployrrOutput.line(String.format("%s (%s/%s)", task.getDisplayName(), i+1, this.tasks.size()));
+            TaskResult taskResult = task.execute();
+            if (taskResult.isSuccess()) {
+                LOG.info("\u001B[32mSuccess\u001B[0m");
+            } else {
+                throw new TaskException(taskResult.getException());
+            }
+            DeployrrOutput.line();
         }
     }
 
     private void shutdownSSHConnection() throws IOException {
         this.enterState(DeployrrState.SSH_DISCONNECT);
         this.sshConnection.shutdownConnection();
+    }
+
+    private void finish() {
+        LOG.info("\u001B[1m\u001B[32mDEPLOYMENT SUCCESS\u001B[0m");
+        DeployrrOutput.line("Stats");
+        LOG.info("Executed tasks: {}", this.tasks.size());
+        LOG.info("Total time: {} ms", System.currentTimeMillis() - this.startTime);
+        DeployrrOutput.line();
         this.enterState(DeployrrState.FINISHED);
     }
 

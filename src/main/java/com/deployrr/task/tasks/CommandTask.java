@@ -1,10 +1,7 @@
 package com.deployrr.task.tasks;
 
 import com.deployrr.ssh.SSHConnection;
-import com.deployrr.task.DeployTask;
-import com.deployrr.task.Task;
-import com.deployrr.task.TaskException;
-import com.deployrr.task.TaskOpt;
+import com.deployrr.task.*;
 
 import java.io.IOException;
 
@@ -22,13 +19,14 @@ public class CommandTask extends DeployTask {
     }
 
     @Override
-    public void execute() throws TaskException {
+    public TaskResult execute() throws TaskException {
         try {
             String fullCommand = this.cwd != null
                     ? String.format("cd %s && %s", this.cwd, this.cmd)
                     : this.cmd;
 
             this.sshConnection.executeCommandLogging(fullCommand);
+            return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);
         }

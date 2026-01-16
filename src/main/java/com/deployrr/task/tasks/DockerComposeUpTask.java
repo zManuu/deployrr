@@ -1,10 +1,7 @@
 package com.deployrr.task.tasks;
 
 import com.deployrr.ssh.SSHConnection;
-import com.deployrr.task.DeployTask;
-import com.deployrr.task.Task;
-import com.deployrr.task.TaskException;
-import com.deployrr.task.TaskOpt;
+import com.deployrr.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,11 +20,12 @@ public class DockerComposeUpTask extends DeployTask {
     }
 
     @Override
-    public void execute() throws TaskException {
-        LOG.info("Starting docker-compose in '{}'.", this.location);
+    public TaskResult execute() throws TaskException {
+        LOG.debug("Starting docker-compose in '{}'.", this.location);
         String command = String.format("docker compose -f %s up -d --remove-orphans", this.location);
         try {
             this.sshConnection.executeCommandLogging(command);
+            return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);
         }

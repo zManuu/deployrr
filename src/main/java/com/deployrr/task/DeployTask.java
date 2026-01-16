@@ -12,7 +12,7 @@ public abstract class DeployTask {
         this.name = name;
     }
 
-    public abstract void execute() throws TaskException;
+    public abstract TaskResult execute() throws TaskException;
 
     public String getDisplayName() {
         String taskName = getClass().getAnnotation(Task.class).name();

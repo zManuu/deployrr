@@ -66,7 +66,7 @@ public class SSHConnection {
     }
 
     public List<String> executeCommand(String command) throws IOException {
-        LOG.info("Executing command '{}'.", command);
+        LOG.debug("Executing command '{}'.", command);
 
         Session session = this.sshClient.startSession();
         Session.Command cmd = session.exec(command);

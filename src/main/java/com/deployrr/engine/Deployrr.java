@@ -15,6 +15,7 @@ public class Deployrr {
     private static final String LOG4J_VERBOSE = "log4j2/verbose.xml";
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
 
         // Arguments
         DeployrrEngineArguments arguments;
@@ -33,7 +34,7 @@ public class Deployrr {
         ));
 
         // Engine Deploy
-        DeployrrEngine engine = new DeployrrEngine(arguments);
+        DeployrrEngine engine = new DeployrrEngine(arguments, startTime);
         try {
             engine.runDeployment();
         } catch (IOException | TaskException e) {

@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="LogToConsole_Simple" target="SYSTEM_OUT">
-            <PatternLayout pattern="%level > %msg%n"/>
+            <PatternLayout pattern="[%level] %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
