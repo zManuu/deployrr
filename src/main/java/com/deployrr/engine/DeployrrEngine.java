@@ -38,7 +38,7 @@ public class DeployrrEngine {
         this.envInjector = new DeployEnvInjector();
     }
 
-    public void runDeployment() throws IOException, TaskException {
+    public void runDeployment() throws IOException {
         if (!this.arguments.isNoBanner()) {
             DeployrrOutput.banner();
         }
@@ -46,9 +46,9 @@ public class DeployrrEngine {
         this.loadConfiguration();
         this.initiateSSHConnection();
         this.prepareTasks();
-        this.deploy();
+        boolean deploySuccess = this.deploy();
         this.shutdownSSHConnection();
-        this.finish();
+        this.finish(deploySuccess);
     }
 
     private void loadConfiguration() throws IOException {
@@ -102,20 +102,34 @@ public class DeployrrEngine {
         }
     }
 
-    private void deploy() throws TaskException {
+    private boolean deploy() {
         this.enterState(DeployrrState.DEPLOY);
         LOG.info("Running deployment.");
+        boolean deploySuccess = true;
+
+        // Execute tasks
         for (int i = 0; i < this.tasks.size(); i++) {
             DeployTask task = this.tasks.get(i);
             DeployrrOutput.line(String.format("%s (%s/%s)", task.getDisplayName(), i+1, this.tasks.size()));
-            TaskResult taskResult = task.execute();
+            TaskResult taskResult;
+            try {
+                taskResult = task.execute();
+            } catch (TaskException e) {
+                LOG.error("Error whilst executing task.", e);
+                deploySuccess = false;
+                break;
+            }
             if (taskResult.isSuccess()) {
                 LOG.info("\u001B[32mSuccess\u001B[0m");
             } else {
-                throw new TaskException(taskResult.getException());
+                LOG.error("Error whilst executing task.", taskResult.getException());
+                deploySuccess = false;
+                break;
             }
             DeployrrOutput.line();
         }
+
+        return deploySuccess;
     }
 
     private void shutdownSSHConnection() throws IOException {
@@ -123,11 +137,16 @@ public class DeployrrEngine {
         this.sshConnection.shutdownConnection();
     }
 
-    private void finish() {
-        LOG.info("\u001B[1m\u001B[32mDEPLOYMENT SUCCESS\u001B[0m");
-        DeployrrOutput.line("Stats");
-        LOG.info("Executed tasks: {}", this.tasks.size());
-        LOG.info("Total time: {} ms", System.currentTimeMillis() - this.startTime);
+    private void finish(boolean deploySuccess) {
+        if (deploySuccess) {
+            LOG.info("\u001B[1m\u001B[32mDEPLOYMENT SUCCESS\u001B[0m");
+            DeployrrOutput.line("Stats");
+            LOG.info("Executed tasks: {}", this.tasks.size());
+            LOG.info("Total time: {} ms", System.currentTimeMillis() - this.startTime);
+        } else {
+            DeployrrOutput.line();
+            LOG.info("\u001B[1m\u001B[31mDEPLOYMENT FAILURE\u001B[0m");
+        }
         DeployrrOutput.line();
         this.enterState(DeployrrState.FINISHED);
     }

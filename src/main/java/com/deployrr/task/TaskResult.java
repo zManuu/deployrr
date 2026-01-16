@@ -20,7 +20,7 @@ public class TaskResult {
     }
 
     public static TaskResult failure(Exception ex) {
-        return new TaskResult(true, ex);
+        return new TaskResult(false, ex);
     }
 
     public boolean isSuccess() {
