@@ -1,6 +1,6 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.core.ssh.SSHConnectionImpl;
+import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,7 @@ public class HealthCheckTask extends DeployTask {
     @TaskOpt(value = "expected", required = false, example = "202")
     private Integer expectedStatusCode;
 
-    public HealthCheckTask(SSHConnectionImpl sshConnection, String name) {
+    public HealthCheckTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
     }
 

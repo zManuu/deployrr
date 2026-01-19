@@ -1,6 +1,6 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.core.ssh.SSHConnectionImpl;
+import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class CommandTask extends DeployTask {
     @TaskOpt(value = "cwd", required = false, example = "/deployment/")
     private String cwd;
 
-    public CommandTask(SSHConnectionImpl sshConnection, String name) {
+    public CommandTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
     }
 

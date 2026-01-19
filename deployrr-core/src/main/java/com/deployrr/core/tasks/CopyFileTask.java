@@ -1,6 +1,6 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.core.ssh.SSHConnectionImpl;
+import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class CopyFileTask extends DeployTask {
     @TaskOpt(value = "chmod", required = false, example = "+x")
     private String chmod;
 
-    public CopyFileTask(SSHConnectionImpl sshConnection, String name) {
+    public CopyFileTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
     }
 

@@ -1,6 +1,6 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.core.ssh.SSHConnectionImpl;
+import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,7 @@ public class DockerComposeUpTask extends DeployTask {
     @TaskOpt(value = "location", example = "/deployment/docker-compose.yaml")
     private String location;
 
-    public DockerComposeUpTask(SSHConnectionImpl sshConnection, String name) {
+    public DockerComposeUpTask(SSHConnection sshConnection, String name) {
         super(sshConnection, name);
     }
 
