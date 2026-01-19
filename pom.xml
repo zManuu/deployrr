@@ -12,6 +12,7 @@
     <modules>
         <module>deployrr-api</module>
         <module>deployrr-core</module>
+        <module>deployrr-plugin-example</module>
     </modules>
 
     <properties>

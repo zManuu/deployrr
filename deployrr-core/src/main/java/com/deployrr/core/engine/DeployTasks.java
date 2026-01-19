@@ -11,6 +11,7 @@ import org.reflections.scanners.Scanners;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -25,8 +26,13 @@ public class DeployTasks {
             "com.deployrr",
             Scanners.TypesAnnotated
     );
+    private static final Set<Class<? extends DeployTask>> ADDITIONAL_TASK_CLASSES = new HashSet<>();
 
     private DeployTasks() {
+    }
+
+    public static void addAdditionalTaskClass(Class<? extends DeployTask> taskClass) {
+        ADDITIONAL_TASK_CLASSES.add(taskClass);
     }
 
     public static DeployTask instantiateTask(SSHConnection sshConnection, DeployTaskConfiguration taskConfiguration) throws IOException {
@@ -51,7 +57,9 @@ public class DeployTasks {
     }
 
     public static Set<Class<?>> findTaskClasses() {
-        return REF.getTypesAnnotatedWith(Task.class);
+        Set<Class<?>> classes = REF.getTypesAnnotatedWith(Task.class);
+        classes.addAll(ADDITIONAL_TASK_CLASSES);
+        return classes;
     }
 
     @SuppressWarnings("unchecked")

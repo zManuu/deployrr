@@ -1,11 +1,13 @@
 package com.deployrr.core.engine;
 
+import com.deployrr.core.plugin.DeployrrPluginLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Path;
 
 public class Deployrr {
 
@@ -31,6 +33,12 @@ public class Deployrr {
                 arguments.isVerbose() ? LOG4J_VERBOSE : LOG4J_SIMPLE
         ));
 
+        // Load Plugins
+        DeployrrPluginLoader pluginLoader = new DeployrrPluginLoader(Path.of(
+                System.getProperty("user.home"), "deployrr", "plugins"
+        ));
+        pluginLoader.loadPlugins();
+
         // Engine Deploy
         DeployrrEngine engine = new DeployrrEngine(arguments, startTime);
         try {
@@ -39,6 +47,8 @@ public class Deployrr {
             LOG.error(e);
             e.printStackTrace();
             System.exit(1);
+        } finally {
+            pluginLoader.shutdown();
         }
     }
 

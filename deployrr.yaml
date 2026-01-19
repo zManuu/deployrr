@@ -36,3 +36,5 @@ tasks:
     opt:
       port: 80
       expected: 200
+  - task: custom-task
+    name: Executing my custom task
