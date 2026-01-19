@@ -115,14 +115,14 @@ public class DeployrrEngine {
             try {
                 taskResult = task.execute();
             } catch (TaskException e) {
-                LOG.error("Error whilst executing task.", e);
+                LOG.error("\u001B[31mFailure\u001B[0m", e);
                 deploySuccess = false;
                 break;
             }
             if (taskResult.isSuccess()) {
                 LOG.info("\u001B[32mSuccess\u001B[0m");
             } else {
-                LOG.error("Error whilst executing task.", taskResult.getException());
+                LOG.error("\u001B[31mFailure\u001B[0m", taskResult.getException());
                 deploySuccess = false;
                 break;
             }
