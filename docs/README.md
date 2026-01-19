@@ -16,6 +16,10 @@
 
 A list of all task definition, including examples, can be found under [Tasks](content/Tasks.md).
 
+## Plugins
+
+You can embed your own task definitions and logic into Deployrr using [Plugins](content/Plugins.md).
+
 [Arguments.md](content/Arguments.md ':include')
 
 [Techstack.md](content/Techstack.md ':include')
