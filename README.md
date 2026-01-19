@@ -11,8 +11,7 @@ The **full documentation** can be viewed under [134.199.188.73](http://134.199.1
 For automatic deployment in a **pipeline**, a script has been prepared (for Linux environments).  
 It automates the installation of the JRE and Deployrr and launches the deployment.
 
-[Preview Deployrr.sh](content/PipelineScript.md)  
-<a href="Deployrr.sh" download>Deployrr.sh</a>
+<a href="http://134.199.188.73/Deployrr.sh" download>Deployrr.sh</a>
 
 In a pipeline, simply execute the Deployrr.sh.  
 As the argument, pass the file path of your `deployrr.yaml` or `deployrr.json`.  
