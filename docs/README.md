@@ -4,6 +4,15 @@
 
 ## Introduction
 
+Whilst setting up a new project, you might often find yourself in a position where you need some kind of **automated deployment** on a remote server.  
+Deployrr helps you by providing a configurable, extensible deployment process.  
+
+Similar to the definition of a pipeline, the deployment is configured in one file containing a set of tasks or steps to execute.
+The recommended approach is to embed Deployrr into your pipeline.  
+An example:
+
+<img src="drawio/overview.drawio.svg" style="max-width: 300px;"  alt="Deployrr usage example"/>
+
 ## Quick start
 
 [Quickstart.md](content/Quickstart.md ':include')
