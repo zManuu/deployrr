@@ -29,6 +29,35 @@ tasks:
       recursive: true
 ```
 
+### CopyFile
+
+Copies a local file or directory to the remote.
+
+**Keys**
+
+- cp
+- scp
+- copy
+
+**Options**
+
+| Option | Type | Required |
+|---|---|---|
+| target | String | ✓ |
+| chmod | String | ✘ |
+| source | String | ✓ |
+
+**Example**
+
+```yaml
+tasks:
+  - task: cp
+    opt:
+      target: /deployment/
+      chmod: +x
+      source: deployment/start.sh
+```
+
 ### Command
 
 Executes a command on the remote.
@@ -56,6 +85,52 @@ tasks:
       cmd: script.sh
 ```
 
+### DockerComposeUp
+
+**Keys**
+
+- dockercomposeup
+- docker_compose_up
+- docker-compose-up
+
+**Options**
+
+| Option | Type | Required |
+|---|---|---|
+| location | String | ✓ |
+
+**Example**
+
+```yaml
+tasks:
+  - task: dockercomposeup
+    opt:
+      location: /deployment/docker-compose.yaml
+```
+
+### Make directory
+
+Creates a directory on the remote.
+
+**Keys**
+
+- mkdir
+
+**Options**
+
+| Option | Type | Required |
+|---|---|---|
+| dir | String | ✓ |
+
+**Example**
+
+```yaml
+tasks:
+  - task: mkdir
+    opt:
+      dir: /deployment
+```
+
 ### Git Pull
 
 Pulls a git repository on the remote.
@@ -79,38 +154,6 @@ tasks:
   - task: gitpull
     opt:
       location: /deployment/deployrr-repo
-```
-
-### Health Check
-
-**Keys**
-
-- health
-- healthcheck
-- health_check
-- health-check
-
-**Options**
-
-| Option | Type | Required |
-|---|---|---|
-| port | Integer | ✘ |
-| expected | Integer | ✘ |
-| method | String | ✘ |
-| path | String | ✘ |
-| url | String | ✘ |
-
-**Example**
-
-```yaml
-tasks:
-  - task: health
-    opt:
-      port: 8080
-      expected: 202
-      method: GET
-      path: health
-      url: http://localhost:8080/health
 ```
 
 ### Git Clone
@@ -140,78 +183,35 @@ tasks:
       location: /deployment/deployrr-repo
 ```
 
-### DockerComposeUp
+### Health Check
 
 **Keys**
 
-- dockercomposeup
-- docker_compose_up
-- docker-compose-up
+- health
+- healthcheck
+- health_check
+- health-check
 
 **Options**
 
 | Option | Type | Required |
 |---|---|---|
-| location | String | ✓ |
+| url | String | ✘ |
+| method | String | ✘ |
+| port | Integer | ✘ |
+| expected | Integer | ✘ |
+| path | String | ✘ |
 
 **Example**
 
 ```yaml
 tasks:
-  - task: dockercomposeup
+  - task: health
     opt:
-      location: /deployment/docker-compose.yaml
-```
-
-### CopyFile
-
-Copies a local file or directory to the remote.
-
-**Keys**
-
-- cp
-- scp
-- copy
-
-**Options**
-
-| Option | Type | Required |
-|---|---|---|
-| source | String | ✓ |
-| chmod | String | ✘ |
-| target | String | ✓ |
-
-**Example**
-
-```yaml
-tasks:
-  - task: cp
-    opt:
-      source: deployment/start.sh
-      chmod: +x
-      target: /deployment/
-```
-
-### Make directory
-
-Creates a directory on the remote.
-
-**Keys**
-
-- mkdir
-
-**Options**
-
-| Option | Type | Required |
-|---|---|---|
-| dir | String | ✓ |
-
-**Example**
-
-```yaml
-tasks:
-  - task: mkdir
-    opt:
-      dir: /deployment
+      url: http://localhost:8080/health
+      method: GET
+      port: 8080
+      expected: 202
+      path: health
 ```
 
