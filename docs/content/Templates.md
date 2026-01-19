@@ -5,6 +5,8 @@ Just copy the one closest to your needs and edit it.
 
 ### Docker Compose
 
+Copies a `docker-compose.yml` to the remote and starts the Docker Compose.
+
 ```yaml
 ssh:
   host: ???
@@ -23,6 +25,8 @@ tasks:
 ```
 
 ### Script execution
+
+Copies a script to the remote and executes it.
 
 ```yaml
 ssh:
