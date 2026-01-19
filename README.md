@@ -2,6 +2,17 @@
 
 > The all-in-one tool for quickly setting up configurable deployments and whole environments.
 
+## Introduction
+
+Whilst setting up a new project, you might often find yourself in a position where you need some kind of **automated deployment** on a remote server.  
+Deployrr helps you by providing a configurable, extensible deployment process.
+
+Similar to the definition of a pipeline, the deployment is configured in one file containing a set of tasks or steps to execute.
+The recommended approach is to embed Deployrr into your pipeline.  
+An example:
+
+<img src="docs/drawio/overview.drawio.svg" style="max-width: 300px;"  alt="Deployrr usage example"/>
+
 ## Documentation
 
 The **full documentation** can be viewed under [134.199.188.73](http://134.199.188.73)
