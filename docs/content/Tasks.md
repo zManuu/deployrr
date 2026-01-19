@@ -12,11 +12,11 @@ Removes a file or directory on the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| location | String | ✓ |
-| force | Boolean | ✘ |
-| recursive | Boolean | ✘ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| location | String | ✓ |  |
+| force | Boolean | ✘ | false |
+| recursive | Boolean | ✘ | false |
 
 **Example**
 
@@ -41,11 +41,11 @@ Copies a local file or directory to the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| target | String | ✓ |
-| chmod | String | ✘ |
-| source | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| target | String | ✓ |  |
+| chmod | String | ✘ |  |
+| source | String | ✓ |  |
 
 **Example**
 
@@ -70,10 +70,10 @@ Executes a command on the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| cwd | String | ✘ |
-| cmd | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| cwd | String | ✘ |  |
+| cmd | String | ✓ |  |
 
 **Example**
 
@@ -95,9 +95,9 @@ tasks:
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| location | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| location | String | ✓ |  |
 
 **Example**
 
@@ -118,9 +118,9 @@ Creates a directory on the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| dir | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| dir | String | ✓ |  |
 
 **Example**
 
@@ -143,9 +143,9 @@ Pulls a git repository on the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| location | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| location | String | ✓ |  |
 
 **Example**
 
@@ -168,10 +168,10 @@ Clones a git repository on the remote.
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| url | String | ✓ |
-| location | String | ✓ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| url | String | ✓ |  |
+| location | String | ✓ |  |
 
 **Example**
 
@@ -194,13 +194,13 @@ tasks:
 
 **Options**
 
-| Option | Type | Required |
-|---|---|---|
-| url | String | ✘ |
-| method | String | ✘ |
-| port | Integer | ✘ |
-| expected | Integer | ✘ |
-| path | String | ✘ |
+| Option | Type | Required | Default |
+|---|---|---|---|
+| url | String | ✘ |  |
+| method | String | ✘ | GET |
+| port | Integer | ✘ |  |
+| expected | Integer | ✘ | 200 |
+| path | String | ✘ |  |
 
 **Example**
 
@@ -211,7 +211,7 @@ tasks:
       url: http://localhost:8080/health
       method: GET
       port: 8080
-      expected: 202
+      expected: 200
       path: health
 ```
 

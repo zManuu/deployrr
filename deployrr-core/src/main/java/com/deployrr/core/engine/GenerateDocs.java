@@ -17,7 +17,7 @@ public class GenerateDocs {
     private static final String H_3 = "### ";
     private static final String BOLD = "**";
     private static final String TABLE_SEPARATOR = " | ";
-    private static final String OPTIONS_TABLE_HEADER = "| Option | Type | Required |\n|---|---|---|\n";
+    private static final String OPTIONS_TABLE_HEADER = "| Option | Type | Required | Default |\n|---|---|---|---|\n";
 
     public static void main(String[] args) {
         try {
@@ -109,12 +109,17 @@ public class GenerateDocs {
                 .append(OPTIONS_TABLE_HEADER);
         for (Field taskOptField : taskOptFields) {
             TaskOpt taskOpt = taskOptField.getAnnotation(TaskOpt.class);
+            String taskDefault = Task.NULL.equals(taskOpt.defaultValue())
+                    ? taskOptField.getType().equals(Boolean.class) ? "false" : ""
+                    : taskOpt.defaultValue();
             sb.append("| ")
                     .append(taskOpt.value())
                     .append(TABLE_SEPARATOR)
                     .append(taskOptField.getType().getSimpleName())
                     .append(TABLE_SEPARATOR)
                     .append(taskOpt.required() ? "✓" : "✘")
+                    .append(TABLE_SEPARATOR)
+                    .append(taskDefault)
                     .append(" |")
                     .append(BR);
         }

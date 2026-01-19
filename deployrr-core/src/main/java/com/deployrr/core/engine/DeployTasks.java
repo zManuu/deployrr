@@ -89,31 +89,40 @@ public class DeployTasks {
     private static void injectTaskOpt(DeployTask task, Map<String, String> opt) throws Exception {
         Class<? extends DeployTask> taskClass = task.getClass();
         for (Field field : taskClass.getDeclaredFields()) {
-            if (field.isSynthetic()) {
-                continue;
-            }
-            if (!field.isAnnotationPresent(TaskOpt.class)) {
-                continue;
-            }
-            TaskOpt optData = field.getAnnotation(TaskOpt.class);
-            if (opt == null) {
-                if (optData.required()) {
-                    throw new IOException("Missing the required option '" + optData.value() + "'.");
-                } else {
-                    continue;
-                }
-            }
-            String optValue = opt.get(optData.value());
-            if (optValue == null && optData.required()) {
-                throw new IOException("Missing the required option '" + optData.value() + "'.");
-            } else if (optValue == null) {
+            if (field.isSynthetic() || !field.isAnnotationPresent(TaskOpt.class)) {
                 continue;
             }
 
+            TaskOpt optData = field.getAnnotation(TaskOpt.class);
+            String key = optData.value();
+
+            // compute value
+            String rawValue = (opt != null) ? opt.get(key) : null;
+            String finalValue = resolveValue(rawValue, optData);
+            if (finalValue == null) {
+                continue;
+            }
+
+            // transform & set
+            Object transformed = transformTaskOpt(finalValue, field.getType());
             field.setAccessible(true);
-            Object transformed = transformTaskOpt(optValue, field.getType());
             field.set(task, transformed);
         }
+    }
+
+    private static String resolveValue(String rawValue, TaskOpt optData) throws IOException {
+        if (rawValue != null && !rawValue.isEmpty()) {
+            return rawValue;
+        }
+        String defaultValue = optData.defaultValue();
+        boolean hasDefault = defaultValue != null && !defaultValue.isEmpty() && !defaultValue.equals(Task.NULL);
+        if (hasDefault) {
+            return defaultValue;
+        }
+        if (optData.required()) {
+            throw new IOException("Missing the required option '" + optData.value() + "'.");
+        }
+        return null;
     }
 
     private static Object transformTaskOpt(String taskOpt, Class<?> expectedType) throws IOException {
