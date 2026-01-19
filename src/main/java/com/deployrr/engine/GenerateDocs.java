@@ -4,15 +4,13 @@ import com.deployrr.task.DeployTasks;
 import com.deployrr.task.Task;
 import com.deployrr.task.TaskOpt;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class GenerateTasksDoc {
+public class GenerateDocs {
 
     private static final String BR = "\n";
     private static final String BR_2 = "\n\n";
@@ -23,6 +21,32 @@ public class GenerateTasksDoc {
     private static final String OPTIONS_TABLE_HEADER = "| Option | Type | Required |\n|---|---|---|\n";
 
     public static void main(String[] args) {
+        try {
+            generateTasksDoc();
+            generatePipelineScriptDoc();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void generatePipelineScriptDoc() throws IOException {
+        String pipelineScript;
+        File sourceFile = new File("docs/Deployrr.sh");
+        File targetFile = new File("docs/content/PipelineScript.md");
+        try (FileInputStream fileInputStream = new FileInputStream(sourceFile)) {
+            pipelineScript = new String(fileInputStream.readAllBytes());
+        }
+
+        String computedPipelineDoc = String.format("```sh%n%s%n```", pipelineScript);
+        if (!targetFile.exists()) {
+            targetFile.createNewFile();
+        }
+        try (FileWriter fileWriter = new FileWriter(targetFile)) {
+            fileWriter.write(computedPipelineDoc);
+        }
+    }
+
+    private static void generateTasksDoc() throws IOException {
         Set<Class<?>> taskClasses = DeployTasks.findTaskClasses();
         StringBuilder sb = new StringBuilder()
                 .append(H_2)
@@ -43,8 +67,6 @@ public class GenerateTasksDoc {
         File taskDocFile = new File("docs/content/Tasks.md");
         try (FileWriter fileWriter = new FileWriter(taskDocFile)) {
             fileWriter.write(fileContent);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

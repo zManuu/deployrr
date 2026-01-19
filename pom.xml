@@ -13,6 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainclass>com.deployrr.engine.Deployrr</mainclass>
+        <generatedocs.mainclass>com.deployrr.engine.GenerateDocs</generatedocs.mainclass>
     </properties>
 
     <dependencies>
@@ -116,7 +117,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>com.deployrr.engine.GenerateTasksDoc</mainClass>
+                            <mainClass>${generatedocs.mainclass}</mainClass>
                         </configuration>
                     </execution>
                 </executions>

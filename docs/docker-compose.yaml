@@ -1,0 +1,7 @@
+name: Deployrr-Docs
+services:
+  docs:
+    container_name: Deployrr-Docs
+    image: zmanuu/deployrr-docs:latest
+    ports:
+      - "80:3000"
