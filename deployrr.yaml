@@ -1,0 +1,38 @@
+deployrrVersion: 1.0.0-ALPHA
+ssh:
+  host: ${SRV_HOST}
+  user: ${SRV_USER}
+  privateKey: ${PRIVATE_KEY}
+variables:
+  DEPLOYRR_HOME: /deployment/deployrr
+  DOCKER_COMPOSE: docker-compose.yaml
+tasks:
+  - task: rm
+    name: Clear Deployment dir
+    opt:
+      location: ${DEPLOYRR_HOME}
+      recursive: true
+      force: true
+  - task: mkdir
+    name: Create Deployment dir
+    opt:
+      dir: ${DEPLOYRR_HOME}
+  - task: cp
+    name: Copy docs docker-compose
+    opt:
+      source: docs/${DOCKER_COMPOSE}
+      target: ${DEPLOYRR_HOME}/
+  - task: cmd
+    name: Pull docs image
+    opt:
+      cwd: ${DEPLOYRR_HOME}
+      cmd: docker compose pull
+  - task: docker-compose-up
+    name: Serve docs
+    opt:
+      location: ${DEPLOYRR_HOME}/${DOCKER_COMPOSE}
+  - task: health
+    name: Check docs health
+    opt:
+      port: 80
+      expected: 200
