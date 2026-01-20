@@ -108,6 +108,33 @@ tasks:
       location: /deployment/docker-compose.yaml
 ```
 
+### Timeout
+
+Makes the deployment pause for a specified time period.
+
+**Keys**
+
+- timeout
+- time-out
+- sleep
+
+**Options**
+
+| Option | Type | Required | Default |
+|---|---|---|---|
+| time | Integer | ✓ |  |
+| unit | String | ✘ | MILLISECONDS |
+
+**Example**
+
+```yaml
+tasks:
+  - task: timeout
+    opt:
+      time: 500
+      unit: SECONDS
+```
+
 ### Make directory
 
 Creates a directory on the remote.

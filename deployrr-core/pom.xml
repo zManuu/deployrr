@@ -15,7 +15,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainclass>com.deployrr.engine.Deployrr</mainclass>
+        <mainclass>com.deployrr.core.engine.Deployrr</mainclass>
         <generatedocs.mainclass>com.deployrr.core.engine.GenerateDocs</generatedocs.mainclass>
     </properties>
 
