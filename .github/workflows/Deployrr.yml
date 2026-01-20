@@ -27,11 +27,11 @@ jobs:
       run: docker push $IMAGE_NAME
     - name: Preprare Deployrr
       run: |
-        - mkdir -p ~/.ssh
-        - echo "${{ secrets.SRV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id
-        - echo "${{ secrets.SRV_PUBLIC_KEY }}" | tr -d '\r' > ~/.ssh/id_pub
-        - chmod 600 ~/.ssh/id
-        - chmod 600 ~/.ssh/id_pub
-        - echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SRV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id
+        echo "${{ secrets.SRV_PUBLIC_KEY }}" | tr -d '\r' > ~/.ssh/id_pub
+        chmod 600 ~/.ssh/id
+        chmod 600 ~/.ssh/id_pub
+        echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     - name: Run Deployrr
       run: bash <(curl -s http://134.199.188.73/Deployrr.sh) deployrr.yaml
