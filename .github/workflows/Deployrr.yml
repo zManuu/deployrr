@@ -1,0 +1,37 @@
+name: Deployrr
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/deployrr-docs:latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository checkout
+      uses: actions/checkout@v4
+    - name: Docker login
+      uses: docker/login-action@v3
+      with:
+        registry: docker.io
+        username: ${{ secrets.DOCKER_LOGIN }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Docs docker build
+      run: docker build -t $IMAGE_NAME docs
+    - name: Docs docker push
+      run: docker push $IMAGE_NAME
+    - name: Preprare Deployrr
+      run: |
+        - mkdir -p ~/.ssh
+        - echo "${{ secrets.SRV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id
+        - echo "${{ secrets.SRV_PUBLIC_KEY }}" | tr -d '\r' > ~/.ssh/id_pub
+        - chmod 600 ~/.ssh/id
+        - chmod 600 ~/.ssh/id_pub
+        - echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - name: Run Deployrr
+      run: bash <(curl -s http://134.199.188.73/Deployrr.sh) deployrr.yaml
