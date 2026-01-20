@@ -38,4 +38,7 @@ jobs:
         SRV_HOST: ${{ secrets.SRV_HOST }}
         SRV_USER: ${{ secrets.SRV_USER }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      run: bash <(curl -s http://134.199.188.73/Deployrr.sh) deployrr.yaml
+      run: |
+        ls
+        dir
+        bash <(curl -s http://134.199.188.73/Deployrr.sh) deployrr.yaml
