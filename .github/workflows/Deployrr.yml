@@ -34,4 +34,8 @@ jobs:
         chmod 600 ~/.ssh/id_pub
         echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     - name: Run Deployrr
+      env:
+        SRV_HOST: ${{ secrets.SRV_HOST }}
+        SRV_USER: ${{ secrets.SRV_USER }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       run: bash <(curl -s http://134.199.188.73/Deployrr.sh) deployrr.yaml
