@@ -59,6 +59,10 @@ public class DeployrrPluginLoader {
     }
 
     public void shutdown() {
+        if (this.pluginClassLoader == null) {
+            return;
+        }
+
         try {
             this.pluginClassLoader.close();
         } catch (IOException e) {
