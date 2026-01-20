@@ -1,7 +1,6 @@
 package com.deployrr.core.plugin;
 
 import com.deployrr.api.plugin.DeployrrPlugin;
-import com.deployrr.api.task.DeployTask;
 import com.deployrr.core.engine.DeployTasks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +12,7 @@ import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.util.*;
 
 public class DeployrrPluginLoader {
 
@@ -38,7 +34,7 @@ public class DeployrrPluginLoader {
             return;
         }
 
-        Set<URL> pluginUrls = new HashSet<>();
+        List<URL> pluginUrls = new ArrayList<>();
         try (DirectoryStream<Path> pluginPaths = Files.newDirectoryStream(this.pluginsDirectory)) {
             for (Path pluginPath : pluginPaths) {
                 pluginUrls.add(pluginPath.toUri().toURL());

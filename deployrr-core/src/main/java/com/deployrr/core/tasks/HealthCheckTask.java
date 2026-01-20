@@ -45,7 +45,6 @@ public class HealthCheckTask extends DeployTask {
             throw new TaskException(e);
         }
         String text = String.join(" ", sshCommandResult.getStdOut());
-        LOG.debug(">> {}", text);
 
         // Check
         int statusCode;
