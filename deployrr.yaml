@@ -26,7 +26,7 @@ tasks:
     name: Pull docs image
     opt:
       cwd: ${DEPLOYRR_HOME}
-      cmd: docker compose pull
+      cmd: docker compose pull --policy always
   - task: docker-compose-up
     name: Serve docs
     opt:
