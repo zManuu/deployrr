@@ -1,6 +1,7 @@
 package com.deployrr.core.ssh;
 
 import com.deployrr.api.configuration.DeploySSHConfiguration;
+import com.deployrr.api.ssh.SSHCommandResult;
 import com.deployrr.api.ssh.SSHConnection;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.Session;
@@ -26,6 +27,7 @@ public class SSHConnectionImpl implements SSHConnection {
         this.sshConfiguration = sshConfiguration;
     }
 
+    @Override
     public void initiateConnection() throws IOException {
         if (this.sshClient != null && this.sshClient.isConnected()) {
             this.sshClient.disconnect();
@@ -54,6 +56,7 @@ public class SSHConnectionImpl implements SSHConnection {
         }
     }
 
+    @Override
     public void shutdownConnection() throws IOException {
         if (this.sshClient != null && this.sshClient.isConnected()) {
             this.sshClient.disconnect();
@@ -61,26 +64,45 @@ public class SSHConnectionImpl implements SSHConnection {
         }
     }
 
-    public void executeCommandLogging(String command) throws IOException {
-        this.executeCommand(command)
-                .forEach(line -> LOG.info(">> {}", line));
+    @Override
+    public SSHCommandResult executeCommandLogging(String command) throws IOException {
+        SSHCommandResult commandResult = this.executeCommand(command);
+        commandResult.getStdOut().forEach(line -> LOG.info(">> {}", line));
+        commandResult.getStdErr().forEach(line -> LOG.error(">> {}", line));
+        if (commandResult.getExitCode() != 0) {
+            throw new IOException("Command exited with exit-code " + commandResult.getExitCode() + "!");
+        }
+        return commandResult;
     }
 
-    public List<String> executeCommand(String command) throws IOException {
+    @Override
+    public SSHCommandResult executeCommand(String command) throws IOException {
         LOG.debug("Executing command '{}'.", command);
 
         Session session = this.sshClient.startSession();
         Session.Command cmd = session.exec(command);
+
+        List<String> stdout = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(cmd.getInputStream()))) {
             String line;
-            List<String> lines = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
-                lines.add(line);
+                stdout.add(line);
             }
-            return lines;
         }
+
+        List<String> stderr = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(cmd.getErrorStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stderr.add(line);
+            }
+        }
+
+        cmd.close();
+        return new SSHCommandResult(stdout, stderr, cmd.getExitStatus());
     }
 
+    @Override
     public void copyFile(String source, String target) throws IOException {
         try (SFTPClient sftpClient = this.sshClient.newSFTPClient()) {
             sftpClient.put(source, target);

@@ -1,5 +1,6 @@
 package com.deployrr.core.tasks;
 
+import com.deployrr.api.ssh.SSHCommandResult;
 import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
@@ -7,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.List;
 
 @Task(name = "Health Check", keys = {"health", "healthcheck", "health_check", "health-check"})
 public class HealthCheckTask extends DeployTask {
@@ -38,13 +38,13 @@ public class HealthCheckTask extends DeployTask {
         String command = resolveCommand();
 
         // Exec
-        List<String> lines;
+        SSHCommandResult sshCommandResult;
         try {
-            lines = this.sshConnection.executeCommand(command);
+            sshCommandResult = this.sshConnection.executeCommandLogging(command);
         } catch (IOException e) {
             throw new TaskException(e);
         }
-        String text = String.join(" ", lines);
+        String text = String.join(" ", sshCommandResult.getStdOut());
         LOG.debug(">> {}", text);
 
         // Check
