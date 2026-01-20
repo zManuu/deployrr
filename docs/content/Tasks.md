@@ -97,6 +97,9 @@ tasks:
 
 | Option | Type | Required | Default |
 |---|---|---|---|
+| pull_policy | String | ✘ | missing |
+| remove_orphans | Boolean | ✘ | true |
+| demon | Boolean | ✘ | true |
 | location | String | ✓ |  |
 
 **Example**
@@ -105,6 +108,9 @@ tasks:
 tasks:
   - task: dockercomposeup
     opt:
+      pull_policy: always
+      remove_orphans: <VALUE>
+      demon: <VALUE>
       location: /deployment/docker-compose.yaml
 ```
 

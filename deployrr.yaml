@@ -22,15 +22,11 @@ tasks:
     opt:
       source: docs/${DOCKER_COMPOSE}
       target: ${DEPLOYRR_HOME}/
-  - task: cmd
-    name: Pull docs image
-    opt:
-      cwd: ${DEPLOYRR_HOME}
-      cmd: docker compose pull --policy always
   - task: docker-compose-up
     name: Serve docs
     opt:
       location: ${DEPLOYRR_HOME}/${DOCKER_COMPOSE}
+      pull_policy: always
   - task: sleep
     name: Sleep after docker compose
     opt:
