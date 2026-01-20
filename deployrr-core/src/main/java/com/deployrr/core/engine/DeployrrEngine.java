@@ -16,8 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DeployrrEngine {
 
@@ -96,9 +96,61 @@ public class DeployrrEngine {
     private void prepareTasks() throws IOException {
         this.enterState(DeployrrState.PREPARE_TASKS);
         this.tasks = new ArrayList<>();
-        for (DeployTaskConfiguration taskConfiguration : this.configuration.getTasks()) {
+        List<DeployTaskConfiguration> sortedTaskConfigurations = this.sortTasks(this.configuration.getTasks());
+        for (DeployTaskConfiguration taskConfiguration : sortedTaskConfigurations) {
             this.tasks.add(DeployTasks.instantiateTask(this.sshConnection, taskConfiguration));
         }
+    }
+
+    public List<DeployTaskConfiguration> sortTasks(List<DeployTaskConfiguration> tasks) throws IOException {
+        Map<String, DeployTaskConfiguration> byName = tasks.stream()
+                .collect(Collectors.toMap(DeployTaskConfiguration::getName, t -> t));
+
+        List<String> order = tasks.stream()
+                .map(DeployTaskConfiguration::getName)
+                .collect(Collectors.toList());
+
+        for (DeployTaskConfiguration t : tasks) {
+            for (String dep : t.getDepends()) {
+                if (!byName.containsKey(dep)) {
+                    throw new IOException("Missing dependency \"" + dep + "\" for task \"" + t.getName() + "\".");
+                }
+            }
+        }
+
+        boolean changed = true;
+        int iterations = 0;
+
+        while (changed) {
+            changed = false;
+            iterations++;
+
+            for (int i = 0; i < order.size(); i++) {
+                String name = order.get(i);
+                DeployTaskConfiguration t = byName.get(name);
+
+                for (String dep : t.getDepends()) {
+                    int depIndex = order.indexOf(dep);
+                    if (depIndex == -1) {
+                        throw new IOException("Missing dependency during processing: " + dep);
+                    }
+                    if (depIndex > i) {
+                        order.remove(depIndex);
+                        order.add(i, dep);
+                        changed = true;
+                    }
+                }
+            }
+
+            if (iterations > order.size() * 2) {
+                throw new IOException("Cyclic dependency detected");
+            }
+        }
+
+        LOG.debug("Task execution order: {}", order);
+        return order.stream()
+                .map(byName::get)
+                .collect(Collectors.toList());
     }
 
     private boolean deploy() {

@@ -3,6 +3,8 @@ package com.deployrr.api.configuration;
 import com.deployrr.api.configuration.env.EnvInject;
 import com.deployrr.api.configuration.env.EnvInjectType;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class DeployTaskConfiguration {
@@ -16,6 +18,8 @@ public class DeployTaskConfiguration {
     @EnvInject(EnvInjectType.STRING)
     private String name;
 
+    private List<String> depends;
+
     public DeployTaskConfiguration(String task, Map<String, String> opt) {
         this.task = task;
         this.opt = opt;
@@ -25,6 +29,13 @@ public class DeployTaskConfiguration {
         this.task = task;
         this.opt = opt;
         this.name = name;
+    }
+
+    public DeployTaskConfiguration(String task, Map<String, String> opt, String name, List<String> depends) {
+        this.task = task;
+        this.opt = opt;
+        this.name = name;
+        this.depends = depends;
     }
 
     public DeployTaskConfiguration() {
@@ -52,6 +63,16 @@ public class DeployTaskConfiguration {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getDepends() {
+        return this.depends != null
+                ? this.depends
+                : Collections.emptyList();
+    }
+
+    public void setDepends(List<String> depends) {
+        this.depends = depends;
     }
 
 }
