@@ -40,5 +40,3 @@ tasks:
     name: Check docs health
     opt:
       port: 80
-  - task: custom-task
-    name: Executing my custom task

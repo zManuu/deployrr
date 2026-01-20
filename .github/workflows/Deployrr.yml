@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USER }}/deployrr-docs:latest
+  SSH_DIR: /home/runner/.ssh
 
 jobs:
   build:
@@ -27,12 +28,12 @@ jobs:
       run: docker push $IMAGE_NAME
     - name: Preprare Deployrr
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SRV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id
-        echo "${{ secrets.SRV_PUBLIC_KEY }}" | tr -d '\r' > ~/.ssh/id_pub
-        chmod 600 ~/.ssh/id
-        chmod 600 ~/.ssh/id_pub
-        echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        mkdir -p $SSH_DIR
+        echo "${{ secrets.SRV_PRIVATE_KEY }}" | tr -d '\r' > $SSH_DIR/id
+        echo "${{ secrets.SRV_PUBLIC_KEY }}" | tr -d '\r' > $SSH_DIR/id_pub
+        chmod 600 $SSH_DIR/id
+        chmod 600 $SSH_DIR/id_pub
+        echo -e "Host $SRV_HOST\n\tStrictHostKeyChecking no\n" >> $SSH_DIR/config
     - name: Debug
       run: |
         pwd ls -la
@@ -40,5 +41,5 @@ jobs:
       env:
         SRV_HOST: ${{ secrets.SRV_HOST }}
         SRV_USER: ${{ secrets.SRV_USER }}
-        PRIVATE_KEY: ~/.ssh/id
+        PRIVATE_KEY: $SSH_DIR/id
       run: bash <(curl -s http://134.199.188.73/Deployrr.sh) $GITHUB_WORKSPACE/deployrr.yaml
