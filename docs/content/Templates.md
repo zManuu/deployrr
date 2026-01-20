@@ -3,6 +3,12 @@
 To help you get started with Deployrr, there is a list of templates prepared for you.
 Just copy the one closest to your needs and edit it.
 
+### Deployrr self-usage
+
+Deployrr actually invokes itself (the latest release) in order to deploy the documentation.  
+You can have a look into the [GitHub-CI](https://github.com/zManuu/deployrr/blob/main/.github/workflows/Deployrr.yml)
+and [Deployrr.yaml](https://github.com/zManuu/deployrr/blob/main/deployrr.yaml) to get started quickly.
+
 ### Docker Compose
 
 Copies a `docker-compose.yml` to the remote and starts the Docker Compose.
