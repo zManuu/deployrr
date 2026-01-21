@@ -2,9 +2,7 @@ package com.deployrr.core.engine;
 
 import com.deployrr.api.configuration.DeployTaskConfiguration;
 import com.deployrr.api.ssh.SSHConnection;
-import com.deployrr.api.task.DeployTask;
-import com.deployrr.api.task.Task;
-import com.deployrr.api.task.TaskOpt;
+import com.deployrr.api.task.*;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 
@@ -42,9 +40,18 @@ public class DeployTasks {
             throw new IOException("Unsupported task '" + taskName + "'.");
         }
 
+        // General options
+        DeployTaskGeneralOptions generalOptions = new DeployTaskGeneralOptions();
+        try {
+            injectTaskOpt(generalOptions, taskConfiguration.getOpt());
+        } catch (Exception e) {
+            throw new IOException("Could not inject options into general-options object.", e);
+        }
+        DeployTaskParameters taskParameters = new DeployTaskParameters(sshConnection, taskConfiguration.getName(), generalOptions);
+
         DeployTask task;
         try {
-            task = instantiateTask(taskClass, sshConnection, taskConfiguration.getName());
+            task = instantiateTask(taskClass, taskParameters);
         } catch (Exception e) {
             throw new IOException("Could not instantiate task '" + taskName + "'.", e);
         }
@@ -81,14 +88,14 @@ public class DeployTasks {
         return null;
     }
 
-    private static DeployTask instantiateTask(Class<? extends DeployTask> taskClass, SSHConnection sshConnection, String name) throws Exception {
-        Constructor<? extends DeployTask> constructor = taskClass.getConstructor(SSHConnection.class, String.class);
-        return constructor.newInstance(sshConnection, name);
+    private static DeployTask instantiateTask(Class<? extends DeployTask> taskClass, DeployTaskParameters taskParameters) throws Exception {
+        Constructor<? extends DeployTask> constructor = taskClass.getConstructor(DeployTaskParameters.class);
+        return constructor.newInstance(taskParameters);
     }
 
-    private static void injectTaskOpt(DeployTask task, Map<String, String> opt) throws Exception {
-        Class<? extends DeployTask> taskClass = task.getClass();
-        for (Field field : taskClass.getDeclaredFields()) {
+    private static void injectTaskOpt(Object injectable, Map<String, String> opt) throws Exception {
+        Class<?> clazz = injectable.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
             if (field.isSynthetic() || !field.isAnnotationPresent(TaskOpt.class)) {
                 continue;
             }
@@ -106,7 +113,7 @@ public class DeployTasks {
             // transform & set
             Object transformed = transformTaskOpt(finalValue, field.getType());
             field.setAccessible(true);
-            field.set(task, transformed);
+            field.set(injectable, transformed);
         }
     }
 

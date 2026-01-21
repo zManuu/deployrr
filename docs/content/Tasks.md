@@ -1,5 +1,13 @@
 ## Tasks
 
+### General options
+
+There are a few special options build into Deployrr. You can use those options on every task definition.
+
+| Option | Type | Required | Default |
+|---|---|---|---|
+| general_test | String | ✘ | Moin |
+
 ### Remove
 
 Removes a file or directory on the remote.

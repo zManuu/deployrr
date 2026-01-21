@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +17,8 @@ public class TimeoutTask extends DeployTask {
 
     private final static Logger LOG = LogManager.getLogger(TimeoutTask.class);
 
-    public TimeoutTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public TimeoutTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

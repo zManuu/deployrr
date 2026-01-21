@@ -1,5 +1,6 @@
 package com.deployrr.core.engine;
 
+import com.deployrr.api.task.DeployTaskGeneralOptions;
 import com.deployrr.api.task.Task;
 import com.deployrr.api.task.TaskOpt;
 
@@ -51,6 +52,36 @@ public class GenerateDocs {
                 .append(H_2)
                 .append("Tasks")
                 .append(BR_2);
+
+        // General options
+        sb.append(H_3)
+                .append("General options")
+                .append(BR_2)
+                .append("There are a few special options build into Deployrr. You can use those options on every task definition.")
+                .append(BR_2)
+                .append(OPTIONS_TABLE_HEADER);
+        Field[] generalOptions = DeployTaskGeneralOptions.class.getDeclaredFields();
+        for (Field generalOption : generalOptions) {
+            if (generalOption.isSynthetic() || !generalOption.isAnnotationPresent(TaskOpt.class)) {
+                continue;
+            }
+
+            TaskOpt taskOpt = generalOption.getAnnotation(TaskOpt.class);
+            String taskDefault = Task.NULL.equals(taskOpt.defaultValue())
+                    ? generalOption.getType().equals(Boolean.class) ? "false" : ""
+                    : taskOpt.defaultValue();
+            sb.append("| ")
+                    .append(taskOpt.value())
+                    .append(TABLE_SEPARATOR)
+                    .append(generalOption.getType().getSimpleName())
+                    .append(TABLE_SEPARATOR)
+                    .append(taskOpt.required() ? "✓" : "✘")
+                    .append(TABLE_SEPARATOR)
+                    .append(taskDefault)
+                    .append(" |")
+                    .append(BR);
+        }
+        sb.append(BR);
 
         for (Class<?> taskClass : taskClasses) {
             if (!taskClass.isAnnotationPresent(Task.class)) {

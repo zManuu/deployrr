@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 
 import java.io.IOException;
@@ -11,8 +10,8 @@ public class MkdirTask extends DeployTask {
     @TaskOpt(value = "dir", example = "/deployment")
     private String dir;
 
-    public MkdirTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public MkdirTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

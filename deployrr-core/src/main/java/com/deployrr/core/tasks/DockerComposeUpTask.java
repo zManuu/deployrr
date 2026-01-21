@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +23,8 @@ public class DockerComposeUpTask extends DeployTask {
     @TaskOpt(value = "pull_policy", required = false, defaultValue = "missing", example = "always")
     private String pullPolicy;
 
-    public DockerComposeUpTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public DockerComposeUpTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

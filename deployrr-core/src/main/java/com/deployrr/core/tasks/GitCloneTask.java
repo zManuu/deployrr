@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 
 import java.io.IOException;
@@ -14,8 +13,8 @@ public class GitCloneTask extends DeployTask {
     @TaskOpt(value = "location", example = "/deployment/deployrr-repo")
     private String location;
 
-    public GitCloneTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public GitCloneTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

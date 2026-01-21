@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 
 import java.io.IOException;
@@ -11,8 +10,8 @@ public class GitPullTask extends DeployTask {
     @TaskOpt(value = "location", example = "/deployment/deployrr-repo")
     private String location;
 
-    public GitPullTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public GitPullTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

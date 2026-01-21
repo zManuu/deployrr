@@ -1,6 +1,5 @@
 package com.deployrr.core.tasks;
 
-import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.*;
 
 import java.io.IOException;
@@ -17,8 +16,8 @@ public class RmTask extends DeployTask {
     @TaskOpt(value = "force", required = false, example = "true")
     private Boolean force;
 
-    public RmTask(SSHConnection sshConnection, String name) {
-        super(sshConnection, name);
+    public RmTask(DeployTaskParameters taskParameters) {
+        super(taskParameters);
     }
 
     @Override

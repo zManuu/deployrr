@@ -6,10 +6,12 @@ public abstract class DeployTask {
 
     protected final SSHConnection sshConnection;
     protected final String name;
+    protected final DeployTaskGeneralOptions generalOptions;
 
-    protected DeployTask(SSHConnection sshConnection, String name) {
-        this.sshConnection = sshConnection;
-        this.name = name;
+    protected DeployTask(DeployTaskParameters taskParameters) {
+        this.sshConnection = taskParameters.getSshConnection();
+        this.name = taskParameters.getName();
+        this.generalOptions = taskParameters.getGeneralOptions();
     }
 
     public abstract TaskResult execute() throws TaskException;
@@ -21,4 +23,8 @@ public abstract class DeployTask {
                 : taskName;
     }
 
+    public DeployTaskGeneralOptions getGeneralOptions() {
+        return generalOptions;
+    }
+    
 }
