@@ -18,7 +18,7 @@ public class MkdirTask extends DeployTask {
     public TaskResult execute() throws TaskException {
         String command = String.format("mkdir %s", this.dir);
         try {
-            this.sshConnection.executeCommandLogging(command);
+            this.sshConnection.executeCommandLogging(command, this.generalOptions);
             return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);

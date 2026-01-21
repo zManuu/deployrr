@@ -165,17 +165,22 @@ public class DeployrrEngine {
             TaskResult taskResult;
             try {
                 taskResult = task.execute();
+
+                if (taskResult.isSuccess()) {
+                    LOG.info("\u001B[32mSuccess\u001B[0m");
+                } else {
+                    LOG.error("\u001B[31mFailure\u001B[0m", taskResult.getException());
+                    if (!task.getGeneralOptions().getIgnoreFailure()) {
+                        deploySuccess = false;
+                        break;
+                    }
+                }
             } catch (TaskException e) {
                 LOG.error("\u001B[31mFailure\u001B[0m", e);
-                deploySuccess = false;
-                break;
-            }
-            if (taskResult.isSuccess()) {
-                LOG.info("\u001B[32mSuccess\u001B[0m");
-            } else {
-                LOG.error("\u001B[31mFailure\u001B[0m", taskResult.getException());
-                deploySuccess = false;
-                break;
+                if (!task.getGeneralOptions().getIgnoreFailure()) {
+                    deploySuccess = false;
+                    break;
+                }
             }
             DeployrrOutput.line();
         }

@@ -24,7 +24,7 @@ public class CommandTask extends DeployTask {
                     ? String.format("cd %s && %s", this.cwd, this.cmd)
                     : this.cmd;
 
-            this.sshConnection.executeCommandLogging(fullCommand);
+            this.sshConnection.executeCommandLogging(fullCommand, this.generalOptions);
             return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);

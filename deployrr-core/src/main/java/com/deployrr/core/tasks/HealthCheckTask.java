@@ -39,7 +39,7 @@ public class HealthCheckTask extends DeployTask {
         // Exec
         SSHCommandResult sshCommandResult;
         try {
-            sshCommandResult = this.sshConnection.executeCommandLogging(command);
+            sshCommandResult = this.sshConnection.executeCommandLogging(command, this.generalOptions);
         } catch (IOException e) {
             throw new TaskException(e);
         }

@@ -31,7 +31,7 @@ public class RmTask extends DeployTask {
                 command += " -f";
             }
 
-            this.sshConnection.executeCommandLogging(command);
+            this.sshConnection.executeCommandLogging(command, this.generalOptions);
             return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);

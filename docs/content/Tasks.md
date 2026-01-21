@@ -6,7 +6,7 @@ There are a few special options build into Deployrr. You can use those options o
 
 | Option | Type | Required | Default |
 |---|---|---|---|
-| general_test | String | ✘ | Moin |
+| ignore_failure | Boolean | ✘ | false |
 
 ### Remove
 

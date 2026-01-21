@@ -3,6 +3,7 @@ package com.deployrr.core.ssh;
 import com.deployrr.api.configuration.DeploySSHConfiguration;
 import com.deployrr.api.ssh.SSHCommandResult;
 import com.deployrr.api.ssh.SSHConnection;
+import com.deployrr.api.task.DeployTaskGeneralOptions;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.sftp.SFTPClient;
@@ -65,11 +66,11 @@ public class SSHConnectionImpl implements SSHConnection {
     }
 
     @Override
-    public SSHCommandResult executeCommandLogging(String command) throws IOException {
+    public SSHCommandResult executeCommandLogging(String command, DeployTaskGeneralOptions generalOptions) throws IOException {
         SSHCommandResult commandResult = this.executeCommand(command);
         commandResult.getStdOut().forEach(line -> LOG.info(">> {}", line));
         commandResult.getStdErr().forEach(line -> LOG.error(">> {}", line));
-        if (commandResult.getExitCode() != 0) {
+        if (!generalOptions.getIgnoreFailure() && commandResult.getExitCode() != 0) {
             throw new IOException("Command exited with exit-code " + commandResult.getExitCode() + "!");
         }
         return commandResult;

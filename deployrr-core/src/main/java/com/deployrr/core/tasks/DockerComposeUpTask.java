@@ -39,7 +39,7 @@ public class DockerComposeUpTask extends DeployTask {
         }
 
         try {
-            this.sshConnection.executeCommandLogging(command);
+            this.sshConnection.executeCommandLogging(command, this.generalOptions);
             return TaskResult.success();
         } catch (IOException e) {
             throw new TaskException(e);
