@@ -13,6 +13,7 @@ tasks:
       location: ${DEPLOYRR_HOME}
       recursive: true
       force: true
+      ignore_validation_hooks: true
   - task: mkdir
     name: Create Deployment dir
     opt:

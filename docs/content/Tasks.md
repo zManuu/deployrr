@@ -7,6 +7,7 @@ There are a few special options build into Deployrr. You can use those options o
 | Option | Type | Description | Required | Default |
 |---|---|---|---|---|
 | ignore_failure | Boolean | Ignore the potential failure of a task and continue with the next task. | ✘ | false |
+| ignore_validation_hooks | Boolean | Ignore all validation hooks of a task (for instance, whether the file exists). | ✘ | false |
 
 ### Remove
 

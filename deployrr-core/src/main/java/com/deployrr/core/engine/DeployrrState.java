@@ -7,6 +7,7 @@ public enum DeployrrState {
     SSH_CONNECT,
     PREPARE_TASKS,
     DEPLOY,
+    VALIDATION,
     SSH_DISCONNECT,
     FINISHED
 

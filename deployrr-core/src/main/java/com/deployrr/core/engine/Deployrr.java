@@ -11,6 +11,7 @@ import java.nio.file.Path;
 
 public class Deployrr {
 
+    public final static String YES = "YES";
     private static final Logger LOG = LogManager.getLogger(Deployrr.class);
     private static final String LOG4J_SIMPLE = "log4j2/simple.xml";
     private static final String LOG4J_VERBOSE = "log4j2/verbose.xml";

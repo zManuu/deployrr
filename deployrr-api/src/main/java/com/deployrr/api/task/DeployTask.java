@@ -1,6 +1,9 @@
 package com.deployrr.api.task;
 
 import com.deployrr.api.ssh.SSHConnection;
+import com.deployrr.api.task.validation.TaskValidationHook;
+
+import java.util.List;
 
 public abstract class DeployTask {
 
@@ -15,6 +18,10 @@ public abstract class DeployTask {
     }
 
     public abstract TaskResult execute() throws TaskException;
+
+    public List<TaskValidationHook> validationHooks() {
+        return null;
+    }
 
     public String getDisplayName() {
         String taskName = getClass().getAnnotation(Task.class).name();
