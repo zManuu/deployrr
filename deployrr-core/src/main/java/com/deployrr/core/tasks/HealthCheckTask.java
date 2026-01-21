@@ -8,24 +8,24 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
-@Task(name = "Health Check", keys = {"health", "healthcheck", "health_check", "health-check"})
+@Task(name = "Health Check", keys = {"health", "healthcheck", "health_check", "health-check"}, description = "Performs an HTTP-request with CURL and checks the status-code.")
 public class HealthCheckTask extends DeployTask {
 
     private static final Logger LOG = LogManager.getLogger(HealthCheckTask.class);
 
-    @TaskOpt(value = "url", required = false, example = "http://localhost:8080/health")
+    @TaskOpt(value = "url", required = false, example = "http://localhost:8080/health", description = "Fully qualified url.")
     private String url;
 
-    @TaskOpt(value = "method", required = false, example = "GET", defaultValue = "GET")
+    @TaskOpt(value = "method", required = false, example = "GET", defaultValue = "GET", description = "Http method: GET / HEAD / OPTIONS / ...")
     private String method;
 
-    @TaskOpt(value = "port", required = false, example = "8080")
+    @TaskOpt(value = "port", required = false, example = "8080", description = "Port of the service. Used in combination with 'path'.")
     private Integer port;
 
-    @TaskOpt(value = "path", required = false, example = "health")
+    @TaskOpt(value = "path", required = false, example = "health", description = "Path in the service. Used in combination with 'port'.")
     private String path;
 
-    @TaskOpt(value = "expected", required = false, example = "200", defaultValue = "200")
+    @TaskOpt(value = "expected", required = false, example = "200", defaultValue = "200", description = "The expected HTTP status-code.")
     private Integer expectedStatusCode;
 
     public HealthCheckTask(DeployTaskParameters taskParameters) {

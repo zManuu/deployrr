@@ -18,7 +18,8 @@ public class GenerateDocs {
     private static final String H_3 = "### ";
     private static final String BOLD = "**";
     private static final String TABLE_SEPARATOR = " | ";
-    private static final String OPTIONS_TABLE_HEADER = "| Option | Type | Required | Default |\n|---|---|---|---|\n";
+    private static final String OPTIONS_TABLE_HEADER = "| Option | Type | Description | Required | Default |\n" +
+            "|---|---|---|---|---|\n";
 
     public static void main(String[] args) {
         try {
@@ -74,6 +75,8 @@ public class GenerateDocs {
                     .append(taskOpt.value())
                     .append(TABLE_SEPARATOR)
                     .append(generalOption.getType().getSimpleName())
+                    .append(TABLE_SEPARATOR)
+                    .append(taskOpt.description())
                     .append(TABLE_SEPARATOR)
                     .append(taskOpt.required() ? "✓" : "✘")
                     .append(TABLE_SEPARATOR)
@@ -147,6 +150,8 @@ public class GenerateDocs {
                     .append(taskOpt.value())
                     .append(TABLE_SEPARATOR)
                     .append(taskOptField.getType().getSimpleName())
+                    .append(TABLE_SEPARATOR)
+                    .append(taskOpt.description())
                     .append(TABLE_SEPARATOR)
                     .append(taskOpt.required() ? "✓" : "✘")
                     .append(TABLE_SEPARATOR)

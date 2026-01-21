@@ -12,7 +12,7 @@ public class TimeoutTask extends DeployTask {
     @TaskOpt(value = "time", example = "500")
     private Integer time;
 
-    @TaskOpt(value = "unit", required = false, defaultValue = "MILLISECONDS", example = "SECONDS")
+    @TaskOpt(value = "unit", required = false, defaultValue = "MILLISECONDS", example = "SECONDS", description = "Time unit: MILLISECONDS / SECONDS / MINUTES / HOURS")
     private String unit;
 
     private final static Logger LOG = LogManager.getLogger(TimeoutTask.class);

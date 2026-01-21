@@ -4,9 +4,9 @@
 
 There are a few special options build into Deployrr. You can use those options on every task definition.
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| ignore_failure | Boolean | ✘ | false |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| ignore_failure | Boolean | Ignore the potential failure of a task and continue with the next task. | ✘ | false |
 
 ### Remove
 
@@ -20,11 +20,11 @@ Removes a file or directory on the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| location | String | ✓ |  |
-| force | Boolean | ✘ | false |
-| recursive | Boolean | ✘ | false |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| location | String |  | ✓ |  |
+| force | Boolean |  | ✘ | false |
+| recursive | Boolean |  | ✘ | false |
 
 **Example**
 
@@ -49,11 +49,11 @@ Copies a local file or directory to the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| target | String | ✓ |  |
-| chmod | String | ✘ |  |
-| source | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| target | String |  | ✓ |  |
+| chmod | String |  | ✘ |  |
+| source | String |  | ✓ |  |
 
 **Example**
 
@@ -78,10 +78,10 @@ Executes a command on the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| cwd | String | ✘ |  |
-| cmd | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| cwd | String |  | ✘ |  |
+| cmd | String |  | ✓ |  |
 
 **Example**
 
@@ -103,12 +103,12 @@ tasks:
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| pull_policy | String | ✘ | missing |
-| remove_orphans | Boolean | ✘ | true |
-| demon | Boolean | ✘ | true |
-| location | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| pull_policy | String |  | ✘ | missing |
+| remove_orphans | Boolean |  | ✘ | true |
+| demon | Boolean |  | ✘ | true |
+| location | String |  | ✓ |  |
 
 **Example**
 
@@ -134,10 +134,10 @@ Makes the deployment pause for a specified time period.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| time | Integer | ✓ |  |
-| unit | String | ✘ | MILLISECONDS |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| time | Integer |  | ✓ |  |
+| unit | String | Time unit: MILLISECONDS / SECONDS / MINUTES / HOURS | ✘ | MILLISECONDS |
 
 **Example**
 
@@ -159,9 +159,9 @@ Creates a directory on the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| dir | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| dir | String |  | ✓ |  |
 
 **Example**
 
@@ -184,9 +184,9 @@ Pulls a git repository on the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| location | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| location | String |  | ✓ |  |
 
 **Example**
 
@@ -209,10 +209,10 @@ Clones a git repository on the remote.
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| url | String | ✓ |  |
-| location | String | ✓ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| url | String |  | ✓ |  |
+| location | String |  | ✓ |  |
 
 **Example**
 
@@ -226,6 +226,8 @@ tasks:
 
 ### Health Check
 
+Performs an HTTP-request with CURL and checks the status-code.
+
 **Keys**
 
 - health
@@ -235,13 +237,13 @@ tasks:
 
 **Options**
 
-| Option | Type | Required | Default |
-|---|---|---|---|
-| url | String | ✘ |  |
-| method | String | ✘ | GET |
-| port | Integer | ✘ |  |
-| expected | Integer | ✘ | 200 |
-| path | String | ✘ |  |
+| Option | Type | Description | Required | Default |
+|---|---|---|---|---|
+| url | String | Fully qualified url. | ✘ |  |
+| method | String | Http method: GET / HEAD / OPTIONS / ... | ✘ | GET |
+| port | Integer | Port of the service. Used in combination with 'path'. | ✘ |  |
+| expected | Integer | The expected HTTP status-code. | ✘ | 200 |
+| path | String | Path in the service. Used in combination with 'port'. | ✘ |  |
 
 **Example**
 

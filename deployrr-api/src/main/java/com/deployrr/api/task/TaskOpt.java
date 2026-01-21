@@ -13,5 +13,6 @@ public @interface TaskOpt {
     boolean required() default true;
     String example() default Task.NULL;
     String defaultValue() default Task.NULL;
+    String description() default "";
 
 }
