@@ -111,12 +111,12 @@ Pulls images from a docker-compose.
 tasks:
   - task: dockercomposepull
     opt:
-      include_deps: <VALUE>
-      ignore_buildable: <VALUE>
-      policy: <VALUE>
-      ignore_pull_failures: <VALUE>
+      include_deps: false
+      ignore_buildable: false
+      policy: missing
+      ignore_pull_failures: false
       location: /deployment/docker-compose.yaml
-      quiet: <VALUE>
+      quiet: false
 ```
 
 ### Timeout
@@ -198,9 +198,9 @@ Starts a docker-compose.
 tasks:
   - task: dockercomposeup
     opt:
-      demon: <VALUE>
+      demon: true
       location: /deployment/docker-compose.yaml
-      remove_orphans: <VALUE>
+      remove_orphans: true
       pull_policy: always
 ```
 

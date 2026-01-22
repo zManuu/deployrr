@@ -173,7 +173,16 @@ public class GenerateDocs {
                 .append(BR);
         for (Field taskOptField : taskOptFields) {
             TaskOpt taskOpt = taskOptField.getAnnotation(TaskOpt.class);
-            String taskOptValue = taskOpt.example().equals(Task.NULL) ? "<VALUE>" : taskOpt.example();
+
+            // Example value
+            String taskOptValue = taskOpt.example();
+            if (Task.NULL.equals(taskOptValue)) {
+                taskOptValue = taskOpt.defaultValue();
+            }
+            if (Task.NULL.equals(taskOptValue) && taskOptField.getType().equals(Boolean.class)) {
+                taskOptValue = "false";
+            }
+
             exampleSb.append("      ")
                     .append(taskOpt.value())
                     .append(": ")
