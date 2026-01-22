@@ -1,4 +1,4 @@
-package com.deployrr.core.tasks;
+package com.deployrr.core.tasks.docker;
 
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;
@@ -6,15 +6,15 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@Task(name = "DockerComposeUp", keys = {"dockercomposeup", "docker_compose_up", "docker-compose-up"})
+@Task(name = "Docker Compose Up", keys = {"dockercomposeup", "docker_compose_up", "docker-compose-up"}, description = "Starts a docker-compose.")
 public class DockerComposeUpTask extends DeployTask {
 
     private final static Logger LOG = LogManager.getLogger(DockerComposeUpTask.class);
 
-    @TaskOpt(value = "location", example = "/deployment/docker-compose.yaml")
+    @TaskOpt(value = "location", example = "/deployment/docker-compose.yaml", description = "File-path of the docker-compose file.")
     private String location;
 
-    @TaskOpt(value = "demon", required = false, defaultValue = "true")
+    @TaskOpt(value = "demon", required = false, defaultValue = "true", description = "Start docker-compose as demon.")
     private Boolean demon;
 
     @TaskOpt(value = "remove_orphans", required = false, defaultValue = "true")

@@ -1,4 +1,4 @@
-package com.deployrr.core.tasks;
+package com.deployrr.core.tasks.basic;
 
 import com.deployrr.api.task.*;
 import org.apache.logging.log4j.LogManager;

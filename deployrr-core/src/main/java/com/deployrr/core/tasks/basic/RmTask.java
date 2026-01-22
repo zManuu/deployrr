@@ -1,4 +1,4 @@
-package com.deployrr.core.tasks;
+package com.deployrr.core.tasks.basic;
 
 import com.deployrr.api.ssh.SSHCommandResult;
 import com.deployrr.api.task.*;
@@ -10,20 +10,33 @@ import java.util.List;
 
 import static com.deployrr.core.engine.Deployrr.YES;
 
-@Task(name = "Make directory", keys = {"mkdir"}, description = "Creates a directory on the remote.")
-public class MkdirTask extends DeployTask {
+@Task(name = "Remove", keys = {"rm", "remove", "delete"}, description = "Removes a file or directory on the remote.")
+public class RmTask extends DeployTask {
 
-    @TaskOpt(value = "dir", example = "/deployment")
-    private String dir;
+    @TaskOpt(value = "location", example = "/deployment")
+    private String location;
 
-    public MkdirTask(DeployTaskParameters taskParameters) {
+    @TaskOpt(value = "recursive", required = false, example = "true")
+    private Boolean recursive;
+
+    @TaskOpt(value = "force", required = false, example = "true")
+    private Boolean force;
+
+    public RmTask(DeployTaskParameters taskParameters) {
         super(taskParameters);
     }
 
     @Override
     public TaskResult execute() throws TaskException {
-        String command = String.format("mkdir %s", this.dir);
         try {
+            String command = String.format("rm %s", this.location);
+            if (this.recursive) {
+                command += " -r";
+            }
+            if (this.force) {
+                command += " -f";
+            }
+
             this.sshConnection.executeCommandLogging(command, this.generalOptions);
             return TaskResult.success();
         } catch (IOException e) {
@@ -32,7 +45,7 @@ public class MkdirTask extends DeployTask {
     }
 
     private final TaskValidationHook validate = () -> {
-        String validationCommand = String.format("if [ -d %s ]; then\necho \"%s\"\nfi", this.dir, YES);
+        String validationCommand = String.format("if [ -e %s ]; then\necho \"%s\"\nfi", this.location, YES);
 
         // Exec
         SSHCommandResult sshCommandResult;
@@ -44,8 +57,8 @@ public class MkdirTask extends DeployTask {
         String text = String.join(" ", sshCommandResult.getStdOut());
 
         // Check
-        if (!YES.equals(text)) {
-            throw new TaskValidationException("Directory does not exist? Got: \"" + text + "\"");
+        if (YES.equals(text)) {
+            throw new TaskValidationException("File/directory does exist? Got: \"" + text + "\"");
         }
     };
 
