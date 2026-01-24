@@ -19,6 +19,9 @@ public class DeployConfiguration {
 
     private Map<String, String> variables;
 
+    @EnvInject(EnvInjectType.STRING_LIST)
+    private List<String> includes;
+
     public DeployConfiguration(String deployrrVersion, DeploySSHConfiguration ssh, List<DeployTaskConfiguration> tasks, Map<String, String> variables) {
         this.deployrrVersion = deployrrVersion;
         this.ssh = ssh;
@@ -59,6 +62,25 @@ public class DeployConfiguration {
 
     public void setVariables(Map<String, String> variables) {
         this.variables = variables;
+    }
+
+    public void setIncludes(List<String> includes) {
+        this.includes = includes;
+    }
+
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    @Override
+    public String toString() {
+        return "DeployConfiguration{" +
+                "deployrrVersion='" + deployrrVersion + '\'' +
+                ", ssh=" + ssh +
+                ", tasks=" + tasks +
+                ", variables=" + variables +
+                ", includes=" + includes +
+                '}';
     }
 
 }

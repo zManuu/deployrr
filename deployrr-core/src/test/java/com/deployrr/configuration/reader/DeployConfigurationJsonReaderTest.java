@@ -2,7 +2,7 @@ package com.deployrr.configuration.reader;
 
 import com.deployrr.api.configuration.DeployConfiguration;
 import com.deployrr.api.configuration.DeployTaskConfiguration;
-import com.deployrr.core.configuration.DeployConfigurationJsonReader;
+import com.deployrr.core.configuration.ConfigurationJsonReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeployConfigurationJsonReaderTest {
 
-    private final DeployConfigurationJsonReader jsonReader = new DeployConfigurationJsonReader();
+    private final ConfigurationJsonReader jsonReader = new ConfigurationJsonReader();
 
     @Test
     public void testReadSimple() throws IOException {

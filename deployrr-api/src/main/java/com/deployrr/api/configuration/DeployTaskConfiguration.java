@@ -75,4 +75,14 @@ public class DeployTaskConfiguration {
         this.depends = depends;
     }
 
+    @Override
+    public String toString() {
+        return "DeployTaskConfiguration{" +
+                "task='" + task + '\'' +
+                ", opt=" + opt +
+                ", name='" + name + '\'' +
+                ", depends=" + depends +
+                '}';
+    }
+
 }

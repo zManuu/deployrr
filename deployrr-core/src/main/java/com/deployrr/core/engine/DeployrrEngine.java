@@ -4,7 +4,7 @@ import com.deployrr.api.configuration.DeployConfiguration;
 import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.validation.TaskValidationHook;
 import com.deployrr.core.configuration.ConfigurationLoader;
-import com.deployrr.core.configuration.DeployEnvInjector;
+import com.deployrr.core.configuration.ConfigurationEnvInjector;
 import com.deployrr.core.engine.arguments.EngineArguments;
 import com.deployrr.core.engine.executor.DeploymentExecutor;
 import com.deployrr.core.engine.executor.ValidationExecutor;
@@ -38,8 +38,9 @@ public class DeployrrEngine {
             DeployrrOutput.banner();
         }
 
-        ConfigurationLoader configurationLoader = new ConfigurationLoader(new DeployEnvInjector(), this.arguments.getDeployrrFile());
+        ConfigurationLoader configurationLoader = new ConfigurationLoader(new ConfigurationEnvInjector(), this.arguments.getDeployrrFile());
         DeployConfiguration configuration = configurationLoader.loadConfiguration();
+        System.out.println(configuration);
 
         SSHConnector sshConnector = new SSHConnector(configuration.getSsh());
         SSHConnection sshConnection = sshConnector.establishSSHConnection();

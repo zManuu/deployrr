@@ -1,0 +1,4 @@
+ssh:
+  host: ${SRV_HOST}
+  user: ${SRV_USER}
+  privateKey: ${PRIVATE_KEY}

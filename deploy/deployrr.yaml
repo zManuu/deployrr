@@ -1,0 +1,6 @@
+deployrrVersion: 1.0.0-ALPHA
+
+includes:
+  - ssh.yaml
+  - env.yaml
+  - tasks.yaml

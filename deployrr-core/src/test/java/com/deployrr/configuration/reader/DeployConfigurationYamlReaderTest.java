@@ -2,7 +2,7 @@ package com.deployrr.configuration.reader;
 
 import com.deployrr.api.configuration.DeployConfiguration;
 import com.deployrr.api.configuration.DeployTaskConfiguration;
-import com.deployrr.core.configuration.DeployConfigurationYamlReader;
+import com.deployrr.core.configuration.ConfigurationYamlReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeployConfigurationYamlReaderTest {
 
-    private final DeployConfigurationYamlReader yamlReader = new DeployConfigurationYamlReader();
+    private final ConfigurationYamlReader yamlReader = new ConfigurationYamlReader();
 
     @Test
     public void testReadSimple() throws IOException {

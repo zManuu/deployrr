@@ -11,18 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DeployEnvInjector {
+public class ConfigurationEnvInjector {
 
-    private Map<String, String> env;
+    private final Map<String, String> env = new HashMap<>();
 
     public void setupEnv(DeployConfiguration deployConfiguration) {
         this.setupEnv(deployConfiguration, "./");
     }
 
     public void setupEnv(DeployConfiguration deployConfiguration, String envDirectory) {
-        Map<String, String> env = new HashMap<>();
         if (deployConfiguration != null && deployConfiguration.getVariables() != null) {
-            deployConfiguration.getVariables().forEach(env::putIfAbsent);
+            deployConfiguration.getVariables().forEach(this.env::putIfAbsent);
         }
 
         Dotenv dotenv = Dotenv.configure()
@@ -30,9 +29,8 @@ public class DeployEnvInjector {
                 .directory(envDirectory)
                 .load();
         for (DotenvEntry dotenvEntry : dotenv.entries()) {
-            env.putIfAbsent(dotenvEntry.getKey(), dotenvEntry.getValue());
+            this.env.putIfAbsent(dotenvEntry.getKey(), dotenvEntry.getValue());
         }
-        this.env = env;
     }
 
     public void injectEnv(Object object) throws Exception {
@@ -69,6 +67,10 @@ public class DeployEnvInjector {
                     break;
                 case OBJECT:
                     this.injectEnv(fieldValue);
+                    break;
+                case STRING_LIST:
+                    List<String> stringList = (List<String>) fieldValue;
+                    stringList.replaceAll(this::injectEnv);
                     break;
             }
         }

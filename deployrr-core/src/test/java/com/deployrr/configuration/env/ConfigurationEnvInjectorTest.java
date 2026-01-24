@@ -3,7 +3,7 @@ package com.deployrr.configuration.env;
 import com.deployrr.api.configuration.DeployConfiguration;
 import com.deployrr.api.configuration.DeploySSHConfiguration;
 import com.deployrr.api.configuration.DeployTaskConfiguration;
-import com.deployrr.core.configuration.DeployEnvInjector;
+import com.deployrr.core.configuration.ConfigurationEnvInjector;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class DeployEnvInjectorTest {
+public class ConfigurationEnvInjectorTest {
 
     @Test
     public void testInjectionWithEnvFile() throws Exception {
@@ -31,7 +31,7 @@ public class DeployEnvInjectorTest {
                 )),
                 null
         );
-        DeployEnvInjector envInjector = new DeployEnvInjector();
+        ConfigurationEnvInjector envInjector = new ConfigurationEnvInjector();
         envInjector.setupEnv(null, "/configuration/env/");
         envInjector.injectEnv(deployConfiguration);
 
@@ -61,7 +61,7 @@ public class DeployEnvInjectorTest {
                 )),
                 Map.of("SRV_HOST", "TEST", "SRV_USER", "root", "SRV_DIR", "/test")
         );
-        DeployEnvInjector envInjector = new DeployEnvInjector();
+        ConfigurationEnvInjector envInjector = new ConfigurationEnvInjector();
         envInjector.setupEnv(deployConfiguration);
         envInjector.injectEnv(deployConfiguration);
 

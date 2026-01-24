@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,6 +39,10 @@ public class TaskPreparer {
     }
 
     private List<DeployTaskConfiguration> sortTasks(List<DeployTaskConfiguration> tasks) throws IOException {
+        if (tasks == null || tasks.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         Map<String, DeployTaskConfiguration> byName = tasks.stream()
                 .collect(Collectors.toMap(DeployTaskConfiguration::getName, t -> t));
 

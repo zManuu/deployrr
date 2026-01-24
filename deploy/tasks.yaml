@@ -1,11 +1,3 @@
-deployrrVersion: 1.0.0-ALPHA
-ssh:
-  host: ${SRV_HOST}
-  user: ${SRV_USER}
-  privateKey: ${PRIVATE_KEY}
-variables:
-  DEPLOYRR_HOME: /deployment/deployrr
-  DOCKER_COMPOSE: docker-compose.yaml
 tasks:
   - task: rm
     name: Clear Deployment dir

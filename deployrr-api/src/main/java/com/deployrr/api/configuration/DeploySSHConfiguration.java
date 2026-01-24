@@ -58,4 +58,15 @@ public class DeploySSHConfiguration {
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
+
+    @Override
+    public String toString() {
+        return "DeploySSHConfiguration{" +
+                "host='" + host + '\'' +
+                ", user='" + user + '\'' +
+                ", password='" + (password == null ? "null" : "***") + '\'' +
+                ", privateKey='" + privateKey + '\'' +
+                '}';
+    }
+
 }

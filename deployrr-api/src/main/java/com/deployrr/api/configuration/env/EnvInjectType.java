@@ -20,6 +20,8 @@ public enum EnvInjectType {
     /**
      * {@link java.util.Map}
      */
-    STRING_MAP
+    STRING_MAP,
+
+    STRING_LIST
 
 }
