@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DEPLOYRR_DOWNLOAD="https://github.com/zManuu/deployrr/releases/download/v0.0.5/Deployrr-0.0.5-SNAPSHOT.jar"
+export DEPLOYRR_DOWNLOAD="https://github.com/zManuu/deployrr/releases/download/v0.0.6/Deployrr-0.0.6-SNAPSHOT.jar"
 export DEPLOYRR_DIR="$HOME/deployrr"
 export DEPLOYRR_JAR="$DEPLOYRR_DIR/deployrr.jar"
 export DEPLOYRR_FILE=$1
