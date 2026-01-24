@@ -1,8 +1,9 @@
-package com.deployrr.core.engine;
+package com.deployrr.core.docs;
 
 import com.deployrr.api.task.DeployTaskGeneralOptions;
 import com.deployrr.api.task.Task;
 import com.deployrr.api.task.TaskOpt;
+import com.deployrr.core.engine.DeployTasks;
 
 import java.io.*;
 import java.lang.reflect.Field;

@@ -1,4 +1,4 @@
-package com.deployrr.core.engine;
+package com.deployrr.core.engine.arguments;
 
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
@@ -7,19 +7,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-public class DeployrrEngineArguments {
+public class EngineArgumentsParser {
 
     private static final String OPT_DEPLOYRR_FILE = "deployrr-file";
     private static final Pattern OPT_DEPLOYRR_FILE_REGEX = Pattern.compile("(?i)^deployrr\\.(json|ya?ml)$");
     private static final String OPT_VERBOSE = "verbose";
     private static final String OPT_NO_BANNER = "no-banner";
 
-    private File deployrrFile;
-    private boolean verbose;
-    private boolean noBanner;
-
-    public static DeployrrEngineArguments parseArguments(String[] args) throws InvalidEngineArgumentException {
-        DeployrrEngineArguments arguments = new DeployrrEngineArguments();
+    public static EngineArguments parseArguments(String[] args) throws InvalidEngineArgumentException {
+        EngineArguments arguments = new EngineArguments();
         LongOpt[] opts = new LongOpt[] {
                 new LongOpt(OPT_DEPLOYRR_FILE, LongOpt.OPTIONAL_ARGUMENT, null, 'f'),
                 new LongOpt(OPT_VERBOSE, LongOpt.OPTIONAL_ARGUMENT, null, 'v'),
@@ -42,7 +38,7 @@ public class DeployrrEngineArguments {
         }
 
         // apply defaults
-        if (arguments.deployrrFile == null) {
+        if (arguments.getDeployrrFile() == null) {
             arguments.setDeployrrFile(findDeployrrFile());
         }
 
@@ -64,39 +60,6 @@ public class DeployrrEngineArguments {
                     + Arrays.toString(Arrays.stream(matches).map(File::getPath).toArray()));
         }
         return matches[0];
-    }
-
-    public void setDeployrrFile(File deployrrFile) {
-        this.deployrrFile = deployrrFile;
-    }
-
-    public File getDeployrrFile() {
-        return deployrrFile;
-    }
-
-    public void setVerbose() {
-        this.verbose = true;
-    }
-
-    private void setNoBanner() {
-        this.noBanner = true;
-    }
-
-    public boolean isVerbose() {
-        return verbose;
-    }
-
-    public boolean isNoBanner() {
-        return noBanner;
-    }
-
-    @Override
-    public String toString() {
-        return "DeployrrEngineArguments{" +
-                "deployrrFile=" + deployrrFile +
-                ", verbose=" + verbose +
-                ", noBanner=" + noBanner +
-                '}';
     }
 
 }

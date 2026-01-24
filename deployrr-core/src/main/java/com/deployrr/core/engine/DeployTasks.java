@@ -58,7 +58,7 @@ public class DeployTasks {
         try {
             injectTaskOpt(task, taskConfiguration.getOpt());
         } catch (Exception e) {
-            throw new IOException("Could not inject options for task '" + taskName + "'.", e);
+            throw new IOException("Could not inject options for task '" + task.getDisplayName() + "'.", e);
         }
         return task;
     }

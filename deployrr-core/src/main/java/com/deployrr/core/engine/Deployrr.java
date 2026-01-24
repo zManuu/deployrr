@@ -1,5 +1,8 @@
 package com.deployrr.core.engine;
 
+import com.deployrr.core.engine.arguments.EngineArguments;
+import com.deployrr.core.engine.arguments.EngineArgumentsParser;
+import com.deployrr.core.engine.arguments.InvalidEngineArgumentException;
 import com.deployrr.core.plugin.DeployrrPluginLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,9 +23,9 @@ public class Deployrr {
         long startTime = System.currentTimeMillis();
 
         // Arguments
-        DeployrrEngineArguments arguments;
+        EngineArguments arguments;
         try {
-            arguments = DeployrrEngineArguments.parseArguments(args);
+            arguments = EngineArgumentsParser.parseArguments(args);
         } catch (InvalidEngineArgumentException e) {
             LOG.error("Invalid arguments passed.", e);
             return;

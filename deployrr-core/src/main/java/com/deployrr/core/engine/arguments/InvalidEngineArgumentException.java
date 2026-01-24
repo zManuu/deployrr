@@ -1,4 +1,4 @@
-package com.deployrr.core.engine;
+package com.deployrr.core.engine.arguments;
 
 public class InvalidEngineArgumentException extends Exception {
     public InvalidEngineArgumentException(String message) {
