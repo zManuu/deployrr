@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ConfigurationLoader {
 
@@ -33,6 +34,34 @@ public class ConfigurationLoader {
         }
 
         LOG.info("Loading configuration '{}'.", this.configurationFile.getPath());
+        DeployConfiguration deployConfiguration = getRawDeployConfiguration();
+
+        // Inject ENV
+        try {
+            this.envInjector.setupEnv(deployConfiguration);
+            this.envInjector.injectEnv(deployConfiguration);
+        } catch (Exception e) {
+            throw new IOException("Could not inject ENV.", e);
+        }
+
+        // Load included files
+        if (deployConfiguration != null && deployConfiguration.getIncludes() != null
+                && !deployConfiguration.getIncludes().isEmpty()) {
+            List<String> includes = new ArrayList<>(deployConfiguration.getIncludes());
+            for (String include : includes) {
+                File includeFile = new File(this.configurationFile.getParentFile(), include);
+                ConfigurationLoader includeLoader = new ConfigurationLoader(this.envInjector, includeFile);
+                DeployConfiguration includeConfiguration = includeLoader.loadConfiguration();
+                if (includeConfiguration != null) {
+                    this.mergeConfigurations(deployConfiguration, includeConfiguration);
+                }
+            }
+        }
+
+        return deployConfiguration;
+    }
+
+    private DeployConfiguration getRawDeployConfiguration() throws IOException {
         DeployConfiguration deployConfiguration;
 
         // Read
@@ -52,25 +81,6 @@ public class ConfigurationLoader {
         try (FileReader fileReader = new FileReader(this.configurationFile)) {
             deployConfiguration = configurationReader.readConfiguration(fileReader);
         }
-
-        // Inject ENV
-        try {
-            this.envInjector.setupEnv(deployConfiguration);
-            this.envInjector.injectEnv(deployConfiguration);
-        } catch (Exception e) {
-            throw new IOException("Could not inject ENV.", e);
-        }
-
-        // Load included files
-        if (deployConfiguration.getIncludes() != null && !deployConfiguration.getIncludes().isEmpty()) {
-            for (String include : deployConfiguration.getIncludes()) {
-                File includeFile = new File(this.configurationFile.getParentFile(), include);
-                ConfigurationLoader includeLoader = new ConfigurationLoader(this.envInjector, includeFile);
-                DeployConfiguration includeConfiguration = includeLoader.loadConfiguration();
-                this.mergeConfigurations(deployConfiguration, includeConfiguration);
-            }
-        }
-
         return deployConfiguration;
     }
 

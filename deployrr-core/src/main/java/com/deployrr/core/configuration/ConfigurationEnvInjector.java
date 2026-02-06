@@ -34,6 +34,10 @@ public class ConfigurationEnvInjector {
     }
 
     public void injectEnv(Object object) throws Exception {
+        if (object == null) {
+            return;
+        }
+
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isSynthetic()) {

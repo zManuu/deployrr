@@ -5,6 +5,7 @@ import com.deployrr.api.ssh.SSHConnection;
 import com.deployrr.api.task.validation.TaskValidationHook;
 import com.deployrr.core.configuration.ConfigurationLoader;
 import com.deployrr.core.configuration.ConfigurationEnvInjector;
+import com.deployrr.core.configuration.ConfigurationValidator;
 import com.deployrr.core.engine.arguments.EngineArguments;
 import com.deployrr.core.engine.executor.DeploymentExecutor;
 import com.deployrr.core.engine.executor.ValidationExecutor;
@@ -38,9 +39,7 @@ public class DeployrrEngine {
             DeployrrOutput.banner();
         }
 
-        ConfigurationLoader configurationLoader = new ConfigurationLoader(new ConfigurationEnvInjector(), this.arguments.getDeployrrFile());
-        DeployConfiguration configuration = configurationLoader.loadConfiguration();
-        System.out.println(configuration);
+        DeployConfiguration configuration = getDeployConfiguration();
 
         SSHConnector sshConnector = new SSHConnector(configuration.getSsh());
         SSHConnection sshConnection = sshConnector.establishSSHConnection();
@@ -60,6 +59,19 @@ public class DeployrrEngine {
 
         sshConnection.shutdownConnection();
         this.finish(deploySuccess, validationSuccess);
+    }
+
+    private DeployConfiguration getDeployConfiguration() throws IOException {
+        ConfigurationLoader configurationLoader = new ConfigurationLoader(new ConfigurationEnvInjector(), this.arguments.getDeployrrFile());
+        DeployConfiguration configuration = configurationLoader.loadConfiguration();
+
+        ConfigurationValidator configurationValidator = new ConfigurationValidator();
+        try {
+            configurationValidator.validateConfiguration(configuration);
+        } catch (IOException e) {
+            throw new IOException("Could not validate configuration.", e);
+        }
+        return configuration;
     }
 
     private void finish(boolean deploySuccess, boolean validationSuccess) {
